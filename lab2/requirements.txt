@@ -1,0 +1,11 @@
+pandas==2.2.0
+numpy==1.26.4
+matplotlib==3.8.3
+seaborn==0.13.2
+pyarrow==15.0.0
+pyspark==4.2.0
+dask[complete]==2024.2.1
+polars==2.0.0
+duckdb==1.5.6
+great_expectations==1.0.0
+memory_profiler==0.61.0
