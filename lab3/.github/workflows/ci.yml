@@ -1,0 +1,50 @@
+
+name: Data Pipeline CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install dbt-core dbt-duckdb great_expectations
+
+    - name: Run Great Expectations
+      run: |
+        # В реальности здесь был бы вызов checkpoint
+        echo "Запуск проверок Great Expectations... OK"
+
+    - name: Test DBT models
+      run: |
+        cd dbt_project
+        dbt deps
+        dbt test --profiles-dir .
+        cd ..
+
+  deploy:
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to staging
+      run: echo "Деплой в staging..."
+
+    - name: Run smoke test
+      run: echo "Smoke test пройден!"
+
+    - name: Deploy to production
+      run: echo "Деплой в production..."

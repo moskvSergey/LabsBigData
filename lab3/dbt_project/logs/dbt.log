@@ -1,0 +1,940 @@
+[0m18:36:14.334126 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000017D67B35FD0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000017D655CC910>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000017D6A33BC50>]}
+
+
+============================== 18:36:14.344090 | ac1cd8c8-b08c-46c2-9a6a-88d677921334 ==============================
+[0m18:36:14.344090 [info ] [MainThread]: Running with dbt=1.12.6
+[0m18:36:14.344984 [debug] [MainThread]: running dbt with arguments {'write_json': 'True', 'log_cache_events': 'False', 'no_print': 'None', 'quiet': 'False', 'use_colors': 'True', 'partial_parse': 'True', 'printer_width': '80', 'fail_fast': 'False', 'invocation_command': 'dbt run --profiles-dir .', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'warn_error': 'None', 'maximum_seed_size_mib': '1', 'use_experimental_parser': 'False', 'profiles_dir': '.', 'log_format': 'default', 'cache_selected_only': 'False', 'static_parser': 'True', 'version_check': 'True', 'hints_enabled': 'True', 'send_anonymous_usage_stats': 'True', 'introspect': 'True', 'indirect_selection': 'eager', 'empty': 'False', 'debug': 'False', 'log_path': 'C:\\Users\\Сергей\\dbt_project\\logs'}
+[0m18:36:15.297641 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'ac1cd8c8-b08c-46c2-9a6a-88d677921334', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000017D6A56C640>]}
+[0m18:36:15.440568 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'ac1cd8c8-b08c-46c2-9a6a-88d677921334', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000017D6A6908D0>]}
+[0m18:36:15.445477 [info ] [MainThread]: Registered adapter: duckdb=1.11.0
+[0m18:36:16.094877 [debug] [MainThread]: checksum: 2a941494ec413b21fbc7f8cc752d00a0e5f9ea00a5146ae9119e5d4831d8f2bc, vars: {}, profile: movielens_profile, target: dev, version: 1.12.6
+[0m18:36:16.096232 [info ] [MainThread]: Unable to do partial parsing because saved manifest not found. Starting full parse.
+[0m18:36:16.096836 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'partial_parser', 'label': 'ac1cd8c8-b08c-46c2-9a6a-88d677921334', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000017D6B940050>]}
+[0m18:36:20.215463 [warn ] [MainThread]: [[33mWARNING[0m][MissingArgumentsPropertyInGenericTestDeprecation]: Deprecated
+functionality
+Found top-level arguments to test `dbt_utils.accepted_range` defined on
+'stg_ratings' in package 'movielens_dbt' (models\schema.yml). Arguments to
+generic tests should be nested under the `arguments` property.
+[0m18:36:20.216178 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'deprecation', 'label': 'ac1cd8c8-b08c-46c2-9a6a-88d677921334', 'property_': 'warn', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000017D6BA54500>]}
+[0m18:36:20.393950 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': 'ac1cd8c8-b08c-46c2-9a6a-88d677921334', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000017D6BF9EDD0>]}
+[0m18:36:20.548248 [debug] [MainThread]: Wrote artifact WritableManifest to C:\Users\Сергей\dbt_project\target\manifest.json
+[0m18:36:20.555268 [debug] [MainThread]: Wrote artifact SemanticManifest to C:\Users\Сергей\dbt_project\target\semantic_manifest.json
+[0m18:36:20.621751 [debug] [MainThread]: Wrote artifact OsiDocument to C:\Users\Сергей\dbt_project\target\osi_document.json
+[0m18:36:20.648220 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': 'ac1cd8c8-b08c-46c2-9a6a-88d677921334', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000017D6BA3D710>]}
+[0m18:36:20.649043 [info ] [MainThread]: Found 2 models, 6 data tests, 500 macros
+[0m18:36:20.649617 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'ac1cd8c8-b08c-46c2-9a6a-88d677921334', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000017D6BF63D10>]}
+[0m18:36:20.652676 [info ] [MainThread]: 
+[0m18:36:20.653377 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m18:36:20.653890 [info ] [MainThread]: 
+[0m18:36:20.654646 [debug] [MainThread]: Acquiring new duckdb connection 'master'
+[0m18:36:20.663204 [debug] [ThreadPool]: Acquiring new duckdb connection 'list_dbt_warehouse'
+[0m18:36:20.847993 [debug] [ThreadPool]: Using duckdb connection "list_dbt_warehouse"
+[0m18:36:20.848596 [debug] [ThreadPool]: On list_dbt_warehouse: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "movielens_profile", "target_name": "dev", "connection_name": "list_dbt_warehouse"} */
+
+    
+    select schema_name
+    from system.information_schema.schemata
+    
+    where lower(catalog_name) = '"dbt_warehouse"'
+    
+  
+  
+[0m18:36:20.849092 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m18:36:20.897244 [debug] [ThreadPool]: SQL status: OK in 0.048 seconds
+[0m18:36:20.899640 [debug] [ThreadPool]: On list_dbt_warehouse: Close
+[0m18:36:20.901069 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_dbt_warehouse, now create_dbt_warehouse_main)
+[0m18:36:20.901827 [debug] [ThreadPool]: Creating schema "database: "dbt_warehouse"
+schema: "main"
+"
+[0m18:36:20.911638 [debug] [ThreadPool]: Using duckdb connection "create_dbt_warehouse_main"
+[0m18:36:20.912186 [debug] [ThreadPool]: On create_dbt_warehouse_main: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "movielens_profile", "target_name": "dev", "connection_name": "create_dbt_warehouse_main"} */
+
+    
+        select type from duckdb_databases()
+        where lower(database_name)='dbt_warehouse'
+        and type != 'duckdb'
+    
+  
+[0m18:36:20.912902 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m18:36:20.915073 [debug] [ThreadPool]: SQL status: OK in 0.002 seconds
+[0m18:36:20.916806 [debug] [ThreadPool]: Using duckdb connection "create_dbt_warehouse_main"
+[0m18:36:20.917316 [debug] [ThreadPool]: On create_dbt_warehouse_main: BEGIN
+[0m18:36:20.918064 [debug] [ThreadPool]: SQL status: OK in 0.000 seconds
+[0m18:36:20.918545 [debug] [ThreadPool]: Using duckdb connection "create_dbt_warehouse_main"
+[0m18:36:20.919025 [debug] [ThreadPool]: On create_dbt_warehouse_main: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "movielens_profile", "target_name": "dev", "connection_name": "create_dbt_warehouse_main"} */
+
+    
+    
+        create schema if not exists "dbt_warehouse"."main"
+    
+[0m18:36:20.920970 [debug] [ThreadPool]: SQL status: OK in 0.001 seconds
+[0m18:36:20.922268 [debug] [ThreadPool]: On create_dbt_warehouse_main: COMMIT
+[0m18:36:20.922792 [debug] [ThreadPool]: Using duckdb connection "create_dbt_warehouse_main"
+[0m18:36:20.923267 [debug] [ThreadPool]: On create_dbt_warehouse_main: COMMIT
+[0m18:36:20.924050 [debug] [ThreadPool]: SQL status: OK in 0.000 seconds
+[0m18:36:20.924551 [debug] [ThreadPool]: On create_dbt_warehouse_main: Close
+[0m18:36:20.926986 [debug] [ThreadPool]: Acquiring new duckdb connection 'list_dbt_warehouse_main'
+[0m18:36:20.933517 [debug] [ThreadPool]: Using duckdb connection "list_dbt_warehouse_main"
+[0m18:36:20.934047 [debug] [ThreadPool]: On list_dbt_warehouse_main: BEGIN
+[0m18:36:20.934512 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m18:36:20.935350 [debug] [ThreadPool]: SQL status: OK in 0.001 seconds
+[0m18:36:20.935842 [debug] [ThreadPool]: Using duckdb connection "list_dbt_warehouse_main"
+[0m18:36:20.936479 [debug] [ThreadPool]: On list_dbt_warehouse_main: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "movielens_profile", "target_name": "dev", "connection_name": "list_dbt_warehouse_main"} */
+select
+      'dbt_warehouse' as database,
+      table_name as name,
+      table_schema as schema,
+      CASE table_type
+        WHEN 'BASE TABLE' THEN 'table'
+        WHEN 'VIEW' THEN 'view'
+        WHEN 'LOCAL TEMPORARY' THEN 'table'
+        END as type
+    from system.information_schema.tables
+    where lower(table_schema) = 'main'
+    and lower(table_catalog) = 'dbt_warehouse'
+  
+[0m18:36:20.946478 [debug] [ThreadPool]: SQL status: OK in 0.009 seconds
+[0m18:36:20.948133 [debug] [ThreadPool]: On list_dbt_warehouse_main: ROLLBACK
+[0m18:36:20.948952 [debug] [ThreadPool]: On list_dbt_warehouse_main: Close
+[0m18:36:20.950005 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'ac1cd8c8-b08c-46c2-9a6a-88d677921334', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000017D6A562A40>]}
+[0m18:36:20.950659 [debug] [MainThread]: Using duckdb connection "master"
+[0m18:36:20.951142 [debug] [MainThread]: On master: BEGIN
+[0m18:36:20.951604 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m18:36:20.952375 [debug] [MainThread]: SQL status: OK in 0.001 seconds
+[0m18:36:20.953083 [debug] [MainThread]: On master: COMMIT
+[0m18:36:20.953582 [debug] [MainThread]: Using duckdb connection "master"
+[0m18:36:20.954051 [debug] [MainThread]: On master: COMMIT
+[0m18:36:20.954777 [debug] [MainThread]: SQL status: OK in 0.000 seconds
+[0m18:36:20.955273 [debug] [MainThread]: On master: Close
+[0m18:36:20.965465 [debug] [Thread-1 (]: Began running node model.movielens_dbt.stg_ratings
+[0m18:36:20.966606 [info ] [Thread-1 (]: 1 of 2 START sql view model main.stg_ratings ................................... [RUN]
+[0m18:36:20.967512 [debug] [Thread-1 (]: Acquiring new duckdb connection 'model.movielens_dbt.stg_ratings'
+[0m18:36:20.968095 [debug] [Thread-1 (]: Began compiling node model.movielens_dbt.stg_ratings
+[0m18:36:20.976023 [debug] [Thread-1 (]: Writing injected SQL for node "model.movielens_dbt.stg_ratings"
+[0m18:36:20.978976 [debug] [Thread-1 (]: Began executing node model.movielens_dbt.stg_ratings
+[0m18:36:21.023632 [debug] [Thread-1 (]: Writing runtime sql for node "model.movielens_dbt.stg_ratings"
+[0m18:36:21.026441 [debug] [Thread-1 (]: Using duckdb connection "model.movielens_dbt.stg_ratings"
+[0m18:36:21.027175 [debug] [Thread-1 (]: On model.movielens_dbt.stg_ratings: BEGIN
+[0m18:36:21.027829 [debug] [Thread-1 (]: Opening a new connection, currently in state init
+[0m18:36:21.029117 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m18:36:21.029780 [debug] [Thread-1 (]: Using duckdb connection "model.movielens_dbt.stg_ratings"
+[0m18:36:21.030400 [debug] [Thread-1 (]: On model.movielens_dbt.stg_ratings: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "movielens_profile", "target_name": "dev", "node_id": "model.movielens_dbt.stg_ratings"} */
+
+  
+  create view "dbt_warehouse"."main"."stg_ratings__dbt_tmp" as (
+    -- Очищаем данные: оставляем только валидные рейтинги
+SELECT 
+    userId,
+    movieId,
+    rating,
+    timestamp,
+    idempotency_key
+FROM read_parquet('../raw_parquet/*.parquet')
+WHERE rating >= 0.5 AND rating <= 5.0
+  );
+
+[0m18:36:21.042401 [debug] [Thread-1 (]: SQL status: OK in 0.011 seconds
+[0m18:36:21.051663 [debug] [Thread-1 (]: Using duckdb connection "model.movielens_dbt.stg_ratings"
+[0m18:36:21.052357 [debug] [Thread-1 (]: On model.movielens_dbt.stg_ratings: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "movielens_profile", "target_name": "dev", "node_id": "model.movielens_dbt.stg_ratings"} */
+alter view "dbt_warehouse"."main"."stg_ratings__dbt_tmp" rename to "stg_ratings"
+[0m18:36:21.053527 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m18:36:21.078641 [debug] [Thread-1 (]: On model.movielens_dbt.stg_ratings: COMMIT
+[0m18:36:21.079656 [debug] [Thread-1 (]: Using duckdb connection "model.movielens_dbt.stg_ratings"
+[0m18:36:21.080620 [debug] [Thread-1 (]: On model.movielens_dbt.stg_ratings: COMMIT
+[0m18:36:21.084371 [debug] [Thread-1 (]: SQL status: OK in 0.003 seconds
+[0m18:36:21.093383 [debug] [Thread-1 (]: Using duckdb connection "model.movielens_dbt.stg_ratings"
+[0m18:36:21.094095 [debug] [Thread-1 (]: On model.movielens_dbt.stg_ratings: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "movielens_profile", "target_name": "dev", "node_id": "model.movielens_dbt.stg_ratings"} */
+
+      drop view if exists "dbt_warehouse"."main"."stg_ratings__dbt_backup" cascade
+    
+[0m18:36:21.095178 [debug] [Thread-1 (]: SQL status: OK in 0.000 seconds
+[0m18:36:21.099112 [debug] [Thread-1 (]: On model.movielens_dbt.stg_ratings: Close
+[0m18:36:21.103515 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'ac1cd8c8-b08c-46c2-9a6a-88d677921334', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000017D6C3F2030>]}
+[0m18:36:21.104623 [info ] [Thread-1 (]: 1 of 2 OK created sql view model main.stg_ratings .............................. [[32mOK[0m in 0.13s]
+[0m18:36:21.105981 [debug] [Thread-1 (]: Finished running node model.movielens_dbt.stg_ratings
+[0m18:36:21.107702 [debug] [Thread-2 (]: Began running node model.movielens_dbt.dim_movies
+[0m18:36:21.108733 [info ] [Thread-2 (]: 2 of 2 START sql view model main.dim_movies .................................... [RUN]
+[0m18:36:21.110024 [debug] [Thread-2 (]: Acquiring new duckdb connection 'model.movielens_dbt.dim_movies'
+[0m18:36:21.110817 [debug] [Thread-2 (]: Began compiling node model.movielens_dbt.dim_movies
+[0m18:36:21.114535 [debug] [Thread-2 (]: Writing injected SQL for node "model.movielens_dbt.dim_movies"
+[0m18:36:21.116565 [debug] [Thread-2 (]: Began executing node model.movielens_dbt.dim_movies
+[0m18:36:21.126209 [debug] [Thread-2 (]: Writing runtime sql for node "model.movielens_dbt.dim_movies"
+[0m18:36:21.128801 [debug] [Thread-2 (]: Using duckdb connection "model.movielens_dbt.dim_movies"
+[0m18:36:21.129910 [debug] [Thread-2 (]: On model.movielens_dbt.dim_movies: BEGIN
+[0m18:36:21.130638 [debug] [Thread-2 (]: Opening a new connection, currently in state init
+[0m18:36:21.131913 [debug] [Thread-2 (]: SQL status: OK in 0.001 seconds
+[0m18:36:21.132588 [debug] [Thread-2 (]: Using duckdb connection "model.movielens_dbt.dim_movies"
+[0m18:36:21.133286 [debug] [Thread-2 (]: On model.movielens_dbt.dim_movies: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "movielens_profile", "target_name": "dev", "node_id": "model.movielens_dbt.dim_movies"} */
+
+  
+  create view "dbt_warehouse"."main"."dim_movies__dbt_tmp" as (
+    -- Считаем средний рейтинг и количество оценок для каждого фильма
+SELECT 
+    movieId,
+    COUNT(*) AS total_ratings,
+    AVG(rating) AS avg_rating
+FROM "dbt_warehouse"."main"."stg_ratings"
+GROUP BY movieId
+HAVING COUNT(*) > 10
+  );
+
+[0m18:36:21.136097 [debug] [Thread-2 (]: SQL status: OK in 0.002 seconds
+[0m18:36:21.140518 [debug] [Thread-2 (]: Using duckdb connection "model.movielens_dbt.dim_movies"
+[0m18:36:21.141468 [debug] [Thread-2 (]: On model.movielens_dbt.dim_movies: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "movielens_profile", "target_name": "dev", "node_id": "model.movielens_dbt.dim_movies"} */
+alter view "dbt_warehouse"."main"."dim_movies__dbt_tmp" rename to "dim_movies"
+[0m18:36:21.142768 [debug] [Thread-2 (]: SQL status: OK in 0.000 seconds
+[0m18:36:21.145242 [debug] [Thread-2 (]: On model.movielens_dbt.dim_movies: COMMIT
+[0m18:36:21.146355 [debug] [Thread-2 (]: Using duckdb connection "model.movielens_dbt.dim_movies"
+[0m18:36:21.146985 [debug] [Thread-2 (]: On model.movielens_dbt.dim_movies: COMMIT
+[0m18:36:21.149711 [debug] [Thread-2 (]: SQL status: OK in 0.002 seconds
+[0m18:36:21.152424 [debug] [Thread-2 (]: Using duckdb connection "model.movielens_dbt.dim_movies"
+[0m18:36:21.153674 [debug] [Thread-2 (]: On model.movielens_dbt.dim_movies: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "movielens_profile", "target_name": "dev", "node_id": "model.movielens_dbt.dim_movies"} */
+
+      drop view if exists "dbt_warehouse"."main"."dim_movies__dbt_backup" cascade
+    
+[0m18:36:21.154987 [debug] [Thread-2 (]: SQL status: OK in 0.000 seconds
+[0m18:36:21.157604 [debug] [Thread-2 (]: On model.movielens_dbt.dim_movies: Close
+[0m18:36:21.158604 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'ac1cd8c8-b08c-46c2-9a6a-88d677921334', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000017D6C3D30D0>]}
+[0m18:36:21.159906 [info ] [Thread-2 (]: 2 of 2 OK created sql view model main.dim_movies ............................... [[32mOK[0m in 0.05s]
+[0m18:36:21.160966 [debug] [Thread-2 (]: Finished running node model.movielens_dbt.dim_movies
+[0m18:36:21.163928 [debug] [MainThread]: Using duckdb connection "master"
+[0m18:36:21.164516 [debug] [MainThread]: On master: BEGIN
+[0m18:36:21.165072 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m18:36:21.166241 [debug] [MainThread]: SQL status: OK in 0.001 seconds
+[0m18:36:21.167636 [debug] [MainThread]: On master: COMMIT
+[0m18:36:21.168419 [debug] [MainThread]: Using duckdb connection "master"
+[0m18:36:21.169726 [debug] [MainThread]: On master: COMMIT
+[0m18:36:21.170738 [debug] [MainThread]: SQL status: OK in 0.000 seconds
+[0m18:36:21.171730 [debug] [MainThread]: On master: Close
+[0m18:36:21.172476 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m18:36:21.173001 [debug] [MainThread]: Connection 'create_dbt_warehouse_main' was properly closed.
+[0m18:36:21.173640 [debug] [MainThread]: Connection 'list_dbt_warehouse_main' was properly closed.
+[0m18:36:21.174228 [debug] [MainThread]: Connection 'model.movielens_dbt.stg_ratings' was properly closed.
+[0m18:36:21.174679 [debug] [MainThread]: Connection 'model.movielens_dbt.dim_movies' was properly closed.
+[0m18:36:21.175365 [info ] [MainThread]: 
+[0m18:36:21.176130 [info ] [MainThread]: Finished running 2 view models in 0 hours 0 minutes and 0.52 seconds (0.52s).
+[0m18:36:21.177812 [debug] [MainThread]: Command end result
+[0m18:36:21.248563 [debug] [MainThread]: Wrote artifact WritableManifest to C:\Users\Сергей\dbt_project\target\manifest.json
+[0m18:36:21.255416 [debug] [MainThread]: Wrote artifact SemanticManifest to C:\Users\Сергей\dbt_project\target\semantic_manifest.json
+[0m18:36:21.262654 [debug] [MainThread]: Wrote artifact OsiDocument to C:\Users\Сергей\dbt_project\target\osi_document.json
+[0m18:36:21.276859 [debug] [MainThread]: Wrote artifact RunExecutionResult to C:\Users\Сергей\dbt_project\target\run_results.json
+[0m18:36:21.277599 [info ] [MainThread]: 
+[0m18:36:21.278314 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m18:36:21.278849 [info ] [MainThread]: 
+[0m18:36:21.279849 [info ] [MainThread]: Done. PASS=2 WARN=0 ERROR=0 SKIP=0 NO-OP=0 REUSED=0 TOTAL=2
+[0m18:36:21.280744 [warn ] [MainThread]: [[33mWARNING[0m][DeprecationsSummary]: Deprecated functionality
+Summary of encountered deprecations:
+- MissingArgumentsPropertyInGenericTestDeprecation: 1 occurrence
+To see all deprecation instances instead of just the first occurrence of each,
+run command again with the `--show-all-deprecations` flag. You may also need to
+run with `--no-partial-parse` as some deprecations are only encountered during
+parsing.
+[0m18:36:21.282349 [debug] [MainThread]: Command `dbt run` succeeded at 18:36:21.282166 after 7.26 seconds
+[0m18:36:21.282934 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000017D6A3C0FA0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000017D6A16C750>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000017D6BDF7170>]}
+[0m18:36:21.283800 [debug] [MainThread]: Flushing usage events
+[0m18:36:22.381099 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m18:36:27.457900 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C328575FD0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C32601C910>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C32AD7BC50>]}
+
+
+============================== 18:36:27.465527 | 5edfb06b-92dd-4d99-bdc0-a3c17303fc85 ==============================
+[0m18:36:27.465527 [info ] [MainThread]: Running with dbt=1.12.6
+[0m18:36:27.466411 [debug] [MainThread]: running dbt with arguments {'write_json': 'True', 'no_print': 'None', 'log_cache_events': 'False', 'quiet': 'False', 'use_colors': 'True', 'partial_parse': 'True', 'fail_fast': 'False', 'printer_width': '80', 'invocation_command': 'dbt test --profiles-dir .', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'warn_error': 'None', 'maximum_seed_size_mib': '1', 'introspect': 'True', 'profiles_dir': '.', 'log_format': 'default', 'cache_selected_only': 'False', 'static_parser': 'True', 'send_anonymous_usage_stats': 'True', 'hints_enabled': 'True', 'version_check': 'True', 'empty': 'None', 'indirect_selection': 'eager', 'use_experimental_parser': 'False', 'log_path': 'C:\\Users\\Сергей\\dbt_project\\logs', 'debug': 'False'}
+[0m18:36:28.175334 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '5edfb06b-92dd-4d99-bdc0-a3c17303fc85', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C32AF3C640>]}
+[0m18:36:28.317784 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '5edfb06b-92dd-4d99-bdc0-a3c17303fc85', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C32B0A08D0>]}
+[0m18:36:28.322130 [info ] [MainThread]: Registered adapter: duckdb=1.11.0
+[0m18:36:28.762137 [debug] [MainThread]: checksum: 2a941494ec413b21fbc7f8cc752d00a0e5f9ea00a5146ae9119e5d4831d8f2bc, vars: {}, profile: movielens_profile, target: dev, version: 1.12.6
+[0m18:36:28.982358 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m18:36:28.982917 [debug] [MainThread]: Nothing changed, skipping partial parsing.
+[0m18:36:28.983365 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m18:36:28.998833 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '5edfb06b-92dd-4d99-bdc0-a3c17303fc85', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C32C353050>]}
+[0m18:36:29.210954 [debug] [MainThread]: Wrote artifact WritableManifest to C:\Users\Сергей\dbt_project\target\manifest.json
+[0m18:36:29.217401 [debug] [MainThread]: Wrote artifact SemanticManifest to C:\Users\Сергей\dbt_project\target\semantic_manifest.json
+[0m18:36:29.284680 [debug] [MainThread]: Wrote artifact OsiDocument to C:\Users\Сергей\dbt_project\target\osi_document.json
+[0m18:36:29.320780 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '5edfb06b-92dd-4d99-bdc0-a3c17303fc85', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C32C462990>]}
+[0m18:36:29.321567 [info ] [MainThread]: Found 2 models, 6 data tests, 500 macros
+[0m18:36:29.322173 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '5edfb06b-92dd-4d99-bdc0-a3c17303fc85', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C32C65E190>]}
+[0m18:36:29.325165 [info ] [MainThread]: 
+[0m18:36:29.325746 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m18:36:29.326237 [info ] [MainThread]: 
+[0m18:36:29.327178 [debug] [MainThread]: Acquiring new duckdb connection 'master'
+[0m18:36:29.333871 [debug] [ThreadPool]: Acquiring new duckdb connection 'list_dbt_warehouse_main'
+[0m18:36:29.441703 [debug] [ThreadPool]: Using duckdb connection "list_dbt_warehouse_main"
+[0m18:36:29.442280 [debug] [ThreadPool]: On list_dbt_warehouse_main: BEGIN
+[0m18:36:29.442753 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m18:36:29.471443 [debug] [ThreadPool]: SQL status: OK in 0.029 seconds
+[0m18:36:29.472049 [debug] [ThreadPool]: Using duckdb connection "list_dbt_warehouse_main"
+[0m18:36:29.472569 [debug] [ThreadPool]: On list_dbt_warehouse_main: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "movielens_profile", "target_name": "dev", "connection_name": "list_dbt_warehouse_main"} */
+select
+      'dbt_warehouse' as database,
+      table_name as name,
+      table_schema as schema,
+      CASE table_type
+        WHEN 'BASE TABLE' THEN 'table'
+        WHEN 'VIEW' THEN 'view'
+        WHEN 'LOCAL TEMPORARY' THEN 'table'
+        END as type
+    from system.information_schema.tables
+    where lower(table_schema) = 'main'
+    and lower(table_catalog) = 'dbt_warehouse'
+  
+[0m18:36:29.478861 [debug] [ThreadPool]: SQL status: OK in 0.006 seconds
+[0m18:36:29.480779 [debug] [ThreadPool]: On list_dbt_warehouse_main: ROLLBACK
+[0m18:36:29.481550 [debug] [ThreadPool]: On list_dbt_warehouse_main: Close
+[0m18:36:29.483233 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '5edfb06b-92dd-4d99-bdc0-a3c17303fc85', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C32C85B6C0>]}
+[0m18:36:29.483887 [debug] [MainThread]: Using duckdb connection "master"
+[0m18:36:29.484367 [debug] [MainThread]: On master: BEGIN
+[0m18:36:29.484827 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m18:36:29.485610 [debug] [MainThread]: SQL status: OK in 0.001 seconds
+[0m18:36:29.486100 [debug] [MainThread]: On master: COMMIT
+[0m18:36:29.486574 [debug] [MainThread]: Using duckdb connection "master"
+[0m18:36:29.487036 [debug] [MainThread]: On master: COMMIT
+[0m18:36:29.487732 [debug] [MainThread]: SQL status: OK in 0.000 seconds
+[0m18:36:29.488223 [debug] [MainThread]: On master: Close
+[0m18:36:29.496095 [debug] [Thread-4 (]: Began running node test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00
+[0m18:36:29.496855 [debug] [Thread-1 (]: Began running node test.movielens_dbt.dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5.a6199a5fff
+[0m18:36:29.497547 [debug] [Thread-2 (]: Began running node test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31
+[0m18:36:29.498226 [debug] [Thread-3 (]: Began running node test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f
+[0m18:36:29.499090 [info ] [Thread-4 (]: 4 of 6 START test not_null_stg_ratings_rating .................................. [RUN]
+[0m18:36:29.499945 [info ] [Thread-1 (]: 1 of 6 START test dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5 ........ [RUN]
+[0m18:36:29.500749 [info ] [Thread-2 (]: 2 of 6 START test not_null_dim_movies_movieId .................................. [RUN]
+[0m18:36:29.501551 [info ] [Thread-3 (]: 3 of 6 START test not_null_stg_ratings_idempotency_key ......................... [RUN]
+[0m18:36:29.502591 [debug] [Thread-4 (]: Acquiring new duckdb connection 'test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00'
+[0m18:36:29.503470 [debug] [Thread-1 (]: Acquiring new duckdb connection 'test.movielens_dbt.dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5.a6199a5fff'
+[0m18:36:29.504321 [debug] [Thread-2 (]: Acquiring new duckdb connection 'test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31'
+[0m18:36:29.505172 [debug] [Thread-3 (]: Acquiring new duckdb connection 'test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f'
+[0m18:36:29.505864 [debug] [Thread-4 (]: Began compiling node test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00
+[0m18:36:29.506557 [debug] [Thread-1 (]: Began compiling node test.movielens_dbt.dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5.a6199a5fff
+[0m18:36:29.507244 [debug] [Thread-2 (]: Began compiling node test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31
+[0m18:36:29.507929 [debug] [Thread-3 (]: Began compiling node test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f
+[0m18:36:29.542620 [debug] [Thread-4 (]: Writing injected SQL for node "test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00"
+[0m18:36:29.551469 [debug] [Thread-2 (]: Writing injected SQL for node "test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31"
+[0m18:36:29.560462 [debug] [Thread-3 (]: Writing injected SQL for node "test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f"
+[0m18:36:29.564584 [debug] [Thread-4 (]: Began executing node test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00
+[0m18:36:29.590908 [debug] [Thread-4 (]: Writing runtime sql for node "test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00"
+[0m18:36:29.591632 [debug] [Thread-2 (]: Began executing node test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31
+[0m18:36:29.594874 [debug] [Thread-2 (]: Writing runtime sql for node "test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31"
+[0m18:36:29.596307 [debug] [Thread-3 (]: Began executing node test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f
+[0m18:36:29.599158 [debug] [Thread-3 (]: Writing runtime sql for node "test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f"
+[0m18:36:29.601354 [debug] [Thread-4 (]: Using duckdb connection "test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00"
+[0m18:36:29.602175 [debug] [Thread-4 (]: On test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00: BEGIN
+[0m18:36:29.602827 [debug] [Thread-4 (]: Opening a new connection, currently in state init
+[0m18:36:29.604289 [debug] [Thread-4 (]: SQL status: OK in 0.001 seconds
+[0m18:36:29.606637 [debug] [Thread-4 (]: Using duckdb connection "test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00"
+[0m18:36:29.607337 [debug] [Thread-4 (]: On test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "movielens_profile", "target_name": "dev", "node_id": "test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select rating
+from "dbt_warehouse"."main"."stg_ratings"
+where rating is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m18:36:29.605189 [debug] [Thread-3 (]: Using duckdb connection "test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f"
+[0m18:36:29.605976 [debug] [Thread-2 (]: Using duckdb connection "test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31"
+[0m18:36:29.609176 [debug] [Thread-2 (]: On test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31: BEGIN
+[0m18:36:29.610052 [debug] [Thread-2 (]: Opening a new connection, currently in state init
+[0m18:36:29.608343 [debug] [Thread-3 (]: On test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f: BEGIN
+[0m18:36:29.611442 [debug] [Thread-3 (]: Opening a new connection, currently in state init
+[0m18:36:29.612250 [debug] [Thread-2 (]: SQL status: OK in 0.002 seconds
+[0m18:36:29.613523 [debug] [Thread-2 (]: Using duckdb connection "test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31"
+[0m18:36:29.614466 [debug] [Thread-2 (]: On test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "movielens_profile", "target_name": "dev", "node_id": "test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select movieId
+from "dbt_warehouse"."main"."dim_movies"
+where movieId is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m18:36:29.615401 [debug] [Thread-3 (]: SQL status: OK in 0.004 seconds
+[0m18:36:29.616134 [debug] [Thread-3 (]: Using duckdb connection "test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f"
+[0m18:36:29.616836 [debug] [Thread-3 (]: On test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "movielens_profile", "target_name": "dev", "node_id": "test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select idempotency_key
+from "dbt_warehouse"."main"."stg_ratings"
+where idempotency_key is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m18:36:29.692202 [debug] [Thread-4 (]: SQL status: OK in 0.084 seconds
+[0m18:36:29.698986 [debug] [Thread-4 (]: On test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00: ROLLBACK
+[0m18:36:29.700103 [debug] [Thread-4 (]: On test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00: Close
+[0m18:36:29.702105 [info ] [Thread-4 (]: 4 of 6 PASS not_null_stg_ratings_rating ........................................ [[32mPASS[0m in 0.20s]
+[0m18:36:29.706029 [debug] [Thread-4 (]: Finished running node test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00
+[0m18:36:29.704892 [debug] [Thread-1 (]: Compilation Error in test dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5 (models\schema.yml)
+  'dbt_utils' is undefined. This can happen when calling a macro that does not exist. Check for typos and/or install package dependencies with "dbt deps".
+[0m18:36:29.708465 [debug] [Thread-2 (]: SQL status: OK in 0.093 seconds
+[0m18:36:29.706838 [debug] [Thread-4 (]: Began running node test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5
+[0m18:36:29.711477 [debug] [Thread-2 (]: On test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31: ROLLBACK
+[0m18:36:29.707842 [error] [Thread-1 (]: 1 of 6 ERROR dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5 ............. [[31mERROR[0m in 0.20s]
+[0m18:36:29.712811 [debug] [Thread-1 (]: Finished running node test.movielens_dbt.dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5.a6199a5fff
+[0m18:36:29.709496 [info ] [Thread-4 (]: 5 of 6 START test unique_dim_movies_movieId .................................... [RUN]
+[0m18:36:29.715240 [debug] [Thread-4 (]: Re-using an available connection from the pool (formerly test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00, now test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5)
+[0m18:36:29.714395 [debug] [Thread-7 (]: Marking all children of 'test.movielens_dbt.dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5.a6199a5fff' to be skipped because of status 'error'.  Reason: Compilation Error in test dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5 (models\schema.yml)
+  'dbt_utils' is undefined. This can happen when calling a macro that does not exist. Check for typos and/or install package dependencies with "dbt deps"..
+[0m18:36:29.716147 [debug] [Thread-4 (]: Began compiling node test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5
+[0m18:36:29.713563 [debug] [Thread-1 (]: Began running node test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da
+[0m18:36:29.716854 [debug] [Thread-2 (]: On test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31: Close
+[0m18:36:29.736651 [debug] [Thread-4 (]: Writing injected SQL for node "test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5"
+[0m18:36:29.738630 [info ] [Thread-2 (]: 2 of 6 PASS not_null_dim_movies_movieId ........................................ [[32mPASS[0m in 0.23s]
+[0m18:36:29.740207 [debug] [Thread-2 (]: Finished running node test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31
+[0m18:36:29.737550 [info ] [Thread-1 (]: 6 of 6 START test unique_stg_ratings_idempotency_key ........................... [RUN]
+[0m18:36:29.741220 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly test.movielens_dbt.dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5.a6199a5fff, now test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da)
+[0m18:36:29.742794 [debug] [Thread-1 (]: Began compiling node test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da
+[0m18:36:29.752697 [debug] [Thread-1 (]: Writing injected SQL for node "test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da"
+[0m18:36:29.741925 [debug] [Thread-4 (]: Began executing node test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5
+[0m18:36:29.755639 [debug] [Thread-4 (]: Writing runtime sql for node "test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5"
+[0m18:36:29.757361 [debug] [Thread-1 (]: Began executing node test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da
+[0m18:36:29.760153 [debug] [Thread-1 (]: Writing runtime sql for node "test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da"
+[0m18:36:29.761179 [debug] [Thread-4 (]: Using duckdb connection "test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5"
+[0m18:36:29.761907 [debug] [Thread-4 (]: On test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5: BEGIN
+[0m18:36:29.762586 [debug] [Thread-4 (]: Opening a new connection, currently in state closed
+[0m18:36:29.763709 [debug] [Thread-4 (]: SQL status: OK in 0.001 seconds
+[0m18:36:29.765230 [debug] [Thread-4 (]: Using duckdb connection "test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5"
+[0m18:36:29.765915 [debug] [Thread-4 (]: On test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "movielens_profile", "target_name": "dev", "node_id": "test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+select
+    movieId as unique_field,
+    count(*) as n_records
+
+from "dbt_warehouse"."main"."dim_movies"
+where movieId is not null
+group by movieId
+having count(*) > 1
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m18:36:29.764445 [debug] [Thread-1 (]: Using duckdb connection "test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da"
+[0m18:36:29.766879 [debug] [Thread-1 (]: On test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da: BEGIN
+[0m18:36:29.767547 [debug] [Thread-1 (]: Opening a new connection, currently in state init
+[0m18:36:29.768514 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m18:36:29.769540 [debug] [Thread-1 (]: Using duckdb connection "test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da"
+[0m18:36:29.770307 [debug] [Thread-1 (]: On test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "movielens_profile", "target_name": "dev", "node_id": "test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+select
+    idempotency_key as unique_field,
+    count(*) as n_records
+
+from "dbt_warehouse"."main"."stg_ratings"
+where idempotency_key is not null
+group by idempotency_key
+having count(*) > 1
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m18:36:29.872509 [debug] [Thread-3 (]: SQL status: OK in 0.255 seconds
+[0m18:36:29.874905 [debug] [Thread-3 (]: On test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f: ROLLBACK
+[0m18:36:29.876096 [debug] [Thread-3 (]: On test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f: Close
+[0m18:36:29.877328 [info ] [Thread-3 (]: 3 of 6 PASS not_null_stg_ratings_idempotency_key ............................... [[32mPASS[0m in 0.37s]
+[0m18:36:29.878526 [debug] [Thread-3 (]: Finished running node test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f
+[0m18:36:29.994078 [debug] [Thread-4 (]: SQL status: OK in 0.227 seconds
+[0m18:36:29.997008 [debug] [Thread-4 (]: On test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5: ROLLBACK
+[0m18:36:29.998098 [debug] [Thread-4 (]: On test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5: Close
+[0m18:36:29.999254 [info ] [Thread-4 (]: 5 of 6 PASS unique_dim_movies_movieId .......................................... [[32mPASS[0m in 0.28s]
+[0m18:36:30.001337 [debug] [Thread-4 (]: Finished running node test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5
+[0m18:36:30.413873 [debug] [Thread-1 (]: SQL status: OK in 0.643 seconds
+[0m18:36:30.417128 [debug] [Thread-1 (]: On test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da: ROLLBACK
+[0m18:36:30.418076 [debug] [Thread-1 (]: On test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da: Close
+[0m18:36:30.419122 [info ] [Thread-1 (]: 6 of 6 PASS unique_stg_ratings_idempotency_key ................................. [[32mPASS[0m in 0.68s]
+[0m18:36:30.420194 [debug] [Thread-1 (]: Finished running node test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da
+[0m18:36:30.422041 [debug] [MainThread]: Using duckdb connection "master"
+[0m18:36:30.422600 [debug] [MainThread]: On master: BEGIN
+[0m18:36:30.423103 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m18:36:30.423930 [debug] [MainThread]: SQL status: OK in 0.001 seconds
+[0m18:36:30.424454 [debug] [MainThread]: On master: COMMIT
+[0m18:36:30.424962 [debug] [MainThread]: Using duckdb connection "master"
+[0m18:36:30.425457 [debug] [MainThread]: On master: COMMIT
+[0m18:36:30.426146 [debug] [MainThread]: SQL status: OK in 0.000 seconds
+[0m18:36:30.426664 [debug] [MainThread]: On master: Close
+[0m18:36:30.427315 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m18:36:30.427785 [debug] [MainThread]: Connection 'list_dbt_warehouse_main' was properly closed.
+[0m18:36:30.428240 [debug] [MainThread]: Connection 'test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5' was properly closed.
+[0m18:36:30.428698 [debug] [MainThread]: Connection 'test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da' was properly closed.
+[0m18:36:30.429157 [debug] [MainThread]: Connection 'test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31' was properly closed.
+[0m18:36:30.429606 [debug] [MainThread]: Connection 'test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f' was properly closed.
+[0m18:36:30.430127 [info ] [MainThread]: 
+[0m18:36:30.430673 [info ] [MainThread]: Finished running 6 data tests in 0 hours 0 minutes and 1.10 seconds (1.10s).
+[0m18:36:30.433072 [debug] [MainThread]: Command end result
+[0m18:36:30.489536 [debug] [MainThread]: Wrote artifact WritableManifest to C:\Users\Сергей\dbt_project\target\manifest.json
+[0m18:36:30.494923 [debug] [MainThread]: Wrote artifact SemanticManifest to C:\Users\Сергей\dbt_project\target\semantic_manifest.json
+[0m18:36:30.500036 [debug] [MainThread]: Wrote artifact OsiDocument to C:\Users\Сергей\dbt_project\target\osi_document.json
+[0m18:36:30.512266 [debug] [MainThread]: Wrote artifact RunExecutionResult to C:\Users\Сергей\dbt_project\target\run_results.json
+[0m18:36:30.512867 [info ] [MainThread]: 
+[0m18:36:30.513480 [info ] [MainThread]: [31mCompleted with 1 error, 0 partial successes, and 0 warnings:[0m
+[0m18:36:30.514021 [info ] [MainThread]: 
+[0m18:36:30.514684 [error] [MainThread]: [[31mERROR[0m]: in test dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5 (models\schema.yml)
+[0m18:36:30.515337 [error] [MainThread]:   Compilation Error in test dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5 (models\schema.yml)
+  'dbt_utils' is undefined. This can happen when calling a macro that does not exist. Check for typos and/or install package dependencies with "dbt deps".
+[0m18:36:30.515879 [info ] [MainThread]: 
+[0m18:36:30.516531 [info ] [MainThread]: Done. PASS=5 WARN=0 ERROR=1 SKIP=0 NO-OP=0 REUSED=0 TOTAL=6
+[0m18:36:30.517884 [debug] [MainThread]: Command `dbt test` failed at 18:36:30.517728 after 3.30 seconds
+[0m18:36:30.518502 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C32C647650>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C328893490>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C32CA23C20>]}
+[0m18:36:30.519050 [debug] [MainThread]: Flushing usage events
+[0m18:36:31.335930 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m18:38:42.373005 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001A92D015FD0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001A92AABC910>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001A92F7BFC50>]}
+
+
+============================== 18:38:42.380705 | 3a36624e-bc41-4072-aeb5-cca8f6230fab ==============================
+[0m18:38:42.380705 [info ] [MainThread]: Running with dbt=1.12.6
+[0m18:38:42.381586 [debug] [MainThread]: running dbt with arguments {'write_json': 'True', 'log_cache_events': 'False', 'no_print': 'None', 'quiet': 'False', 'use_colors': 'True', 'partial_parse': 'True', 'printer_width': '80', 'fail_fast': 'False', 'invocation_command': 'dbt deps', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'use_experimental_parser': 'False', 'maximum_seed_size_mib': '1', 'warn_error': 'None', 'profiles_dir': 'C:\\Users\\Сергей\\dbt_project', 'log_format': 'default', 'cache_selected_only': 'False', 'static_parser': 'True', 'send_anonymous_usage_stats': 'True', 'hints_enabled': 'True', 'version_check': 'True', 'empty': 'None', 'indirect_selection': 'eager', 'introspect': 'True', 'debug': 'False', 'log_path': 'C:\\Users\\Сергей\\dbt_project\\logs'}
+[0m18:38:42.823417 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '3a36624e-bc41-4072-aeb5-cca8f6230fab', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001A92F864FC0>]}
+[0m18:38:42.880805 [debug] [MainThread]: Set downloads directory='C:\Users\D899~1\AppData\Local\Temp\dbt-downloads-1qdzfz56'
+[0m18:38:42.881822 [debug] [MainThread]: Making package index registry request: GET https://hub.getdbt.com/api/v1/index.json
+[0m18:38:43.515636 [debug] [MainThread]: Response from registry index: GET https://hub.getdbt.com/api/v1/index.json 200
+[0m18:38:43.518384 [debug] [MainThread]: Making package registry request: GET https://hub.getdbt.com/api/v1/dbt-labs/dbt_utils.json
+[0m18:38:43.821687 [debug] [MainThread]: Response from registry: GET https://hub.getdbt.com/api/v1/dbt-labs/dbt_utils.json 200
+[0m18:38:43.850090 [info ] [MainThread]: Updating lock file in file path: C:\Users\Сергей\dbt_project/package-lock.yml
+[0m18:38:43.862689 [debug] [MainThread]: Set downloads directory='C:\Users\D899~1\AppData\Local\Temp\dbt-downloads-2buim1by'
+[0m18:38:43.869142 [info ] [MainThread]: Installing dbt-labs/dbt_utils
+[0m18:38:44.946220 [info ] [MainThread]: Installed from version 1.4.1
+[0m18:38:44.946859 [info ] [MainThread]: Up to date!
+[0m18:38:44.947472 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'package', 'label': '3a36624e-bc41-4072-aeb5-cca8f6230fab', 'property_': 'install', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001A92D401590>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001A92F9038A0>]}
+[0m18:38:44.949772 [debug] [MainThread]: Command `dbt deps` succeeded at 18:38:44.949586 after 2.90 seconds
+[0m18:38:44.950348 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001A92F5E3650>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001A92FAE28A0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001A92FAE26C0>]}
+[0m18:38:44.950954 [debug] [MainThread]: Flushing usage events
+[0m18:38:45.721367 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m18:38:51.246003 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000021526B75FD0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002152460C910>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002152937BC50>]}
+
+
+============================== 18:38:51.254101 | e3c6a64e-4a9d-404a-8514-7d9dfe494c5e ==============================
+[0m18:38:51.254101 [info ] [MainThread]: Running with dbt=1.12.6
+[0m18:38:51.255220 [debug] [MainThread]: running dbt with arguments {'write_json': 'True', 'no_print': 'None', 'log_cache_events': 'False', 'quiet': 'False', 'use_colors': 'True', 'partial_parse': 'True', 'fail_fast': 'False', 'printer_width': '80', 'invocation_command': 'dbt test --profiles-dir .', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'use_experimental_parser': 'False', 'maximum_seed_size_mib': '1', 'introspect': 'True', 'empty': 'None', 'log_format': 'default', 'cache_selected_only': 'False', 'static_parser': 'True', 'send_anonymous_usage_stats': 'True', 'hints_enabled': 'True', 'profiles_dir': '.', 'warn_error': 'None', 'indirect_selection': 'eager', 'version_check': 'True', 'log_path': 'C:\\Users\\Сергей\\dbt_project\\logs', 'debug': 'False'}
+[0m18:38:51.916539 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'e3c6a64e-4a9d-404a-8514-7d9dfe494c5e', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000215295B0B00>]}
+[0m18:38:52.101091 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'e3c6a64e-4a9d-404a-8514-7d9dfe494c5e', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000215296D6470>]}
+[0m18:38:52.106518 [info ] [MainThread]: Registered adapter: duckdb=1.11.0
+[0m18:38:52.531124 [debug] [MainThread]: checksum: 2a941494ec413b21fbc7f8cc752d00a0e5f9ea00a5146ae9119e5d4831d8f2bc, vars: {}, profile: movielens_profile, target: dev, version: 1.12.6
+[0m18:38:52.699168 [info ] [MainThread]: Unable to do partial parsing because a project dependency has been added
+[0m18:38:52.699839 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'partial_parser', 'label': 'e3c6a64e-4a9d-404a-8514-7d9dfe494c5e', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002152A996C50>]}
+[0m18:38:56.609950 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': 'e3c6a64e-4a9d-404a-8514-7d9dfe494c5e', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002152AE889B0>]}
+[0m18:38:56.786599 [debug] [MainThread]: Wrote artifact WritableManifest to C:\Users\Сергей\dbt_project\target\manifest.json
+[0m18:38:56.799476 [debug] [MainThread]: Wrote artifact SemanticManifest to C:\Users\Сергей\dbt_project\target\semantic_manifest.json
+[0m18:38:56.882893 [debug] [MainThread]: Wrote artifact OsiDocument to C:\Users\Сергей\dbt_project\target\osi_document.json
+[0m18:38:56.922678 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': 'e3c6a64e-4a9d-404a-8514-7d9dfe494c5e', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002152B15FAF0>]}
+[0m18:38:56.923476 [info ] [MainThread]: Found 2 models, 6 data tests, 616 macros
+[0m18:38:56.924146 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'e3c6a64e-4a9d-404a-8514-7d9dfe494c5e', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002152B1A2F70>]}
+[0m18:38:56.927594 [info ] [MainThread]: 
+[0m18:38:56.928267 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m18:38:56.928803 [info ] [MainThread]: 
+[0m18:38:56.929713 [debug] [MainThread]: Acquiring new duckdb connection 'master'
+[0m18:38:56.938142 [debug] [ThreadPool]: Acquiring new duckdb connection 'list_dbt_warehouse_main'
+[0m18:38:57.089536 [debug] [ThreadPool]: Using duckdb connection "list_dbt_warehouse_main"
+[0m18:38:57.090795 [debug] [ThreadPool]: On list_dbt_warehouse_main: BEGIN
+[0m18:38:57.092062 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m18:38:57.124244 [debug] [ThreadPool]: SQL status: OK in 0.032 seconds
+[0m18:38:57.124888 [debug] [ThreadPool]: Using duckdb connection "list_dbt_warehouse_main"
+[0m18:38:57.125637 [debug] [ThreadPool]: On list_dbt_warehouse_main: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "movielens_profile", "target_name": "dev", "connection_name": "list_dbt_warehouse_main"} */
+select
+      'dbt_warehouse' as database,
+      table_name as name,
+      table_schema as schema,
+      CASE table_type
+        WHEN 'BASE TABLE' THEN 'table'
+        WHEN 'VIEW' THEN 'view'
+        WHEN 'LOCAL TEMPORARY' THEN 'table'
+        END as type
+    from system.information_schema.tables
+    where lower(table_schema) = 'main'
+    and lower(table_catalog) = 'dbt_warehouse'
+  
+[0m18:38:57.136218 [debug] [ThreadPool]: SQL status: OK in 0.010 seconds
+[0m18:38:57.140120 [debug] [ThreadPool]: On list_dbt_warehouse_main: ROLLBACK
+[0m18:38:57.141152 [debug] [ThreadPool]: On list_dbt_warehouse_main: Close
+[0m18:38:57.143551 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'e3c6a64e-4a9d-404a-8514-7d9dfe494c5e', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002152B132150>]}
+[0m18:38:57.144804 [debug] [MainThread]: Using duckdb connection "master"
+[0m18:38:57.146558 [debug] [MainThread]: On master: BEGIN
+[0m18:38:57.147264 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m18:38:57.148466 [debug] [MainThread]: SQL status: OK in 0.001 seconds
+[0m18:38:57.149132 [debug] [MainThread]: On master: COMMIT
+[0m18:38:57.149820 [debug] [MainThread]: Using duckdb connection "master"
+[0m18:38:57.150362 [debug] [MainThread]: On master: COMMIT
+[0m18:38:57.151189 [debug] [MainThread]: SQL status: OK in 0.000 seconds
+[0m18:38:57.151856 [debug] [MainThread]: On master: Close
+[0m18:38:57.162222 [debug] [Thread-3 (]: Began running node test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f
+[0m18:38:57.162981 [debug] [Thread-2 (]: Began running node test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31
+[0m18:38:57.163712 [debug] [Thread-1 (]: Began running node test.movielens_dbt.dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5.a6199a5fff
+[0m18:38:57.164364 [debug] [Thread-4 (]: Began running node test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00
+[0m18:38:57.165095 [info ] [Thread-3 (]: 3 of 6 START test not_null_stg_ratings_idempotency_key ......................... [RUN]
+[0m18:38:57.166025 [info ] [Thread-2 (]: 2 of 6 START test not_null_dim_movies_movieId .................................. [RUN]
+[0m18:38:57.166768 [info ] [Thread-1 (]: 1 of 6 START test dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5 ........ [RUN]
+[0m18:38:57.167647 [info ] [Thread-4 (]: 4 of 6 START test not_null_stg_ratings_rating .................................. [RUN]
+[0m18:38:57.168643 [debug] [Thread-3 (]: Acquiring new duckdb connection 'test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f'
+[0m18:38:57.169561 [debug] [Thread-2 (]: Acquiring new duckdb connection 'test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31'
+[0m18:38:57.172664 [debug] [Thread-1 (]: Acquiring new duckdb connection 'test.movielens_dbt.dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5.a6199a5fff'
+[0m18:38:57.173721 [debug] [Thread-4 (]: Acquiring new duckdb connection 'test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00'
+[0m18:38:57.175301 [debug] [Thread-3 (]: Began compiling node test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f
+[0m18:38:57.176364 [debug] [Thread-2 (]: Began compiling node test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31
+[0m18:38:57.177787 [debug] [Thread-1 (]: Began compiling node test.movielens_dbt.dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5.a6199a5fff
+[0m18:38:57.178600 [debug] [Thread-4 (]: Began compiling node test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00
+[0m18:38:57.217917 [debug] [Thread-3 (]: Writing injected SQL for node "test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f"
+[0m18:38:57.219427 [debug] [Thread-2 (]: Writing injected SQL for node "test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31"
+[0m18:38:57.230678 [debug] [Thread-1 (]: Writing injected SQL for node "test.movielens_dbt.dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5.a6199a5fff"
+[0m18:38:57.241343 [debug] [Thread-4 (]: Writing injected SQL for node "test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00"
+[0m18:38:57.242833 [debug] [Thread-3 (]: Began executing node test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f
+[0m18:38:57.243567 [debug] [Thread-2 (]: Began executing node test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31
+[0m18:38:57.275421 [debug] [Thread-2 (]: Writing runtime sql for node "test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31"
+[0m18:38:57.272831 [debug] [Thread-3 (]: Writing runtime sql for node "test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f"
+[0m18:38:57.276480 [debug] [Thread-1 (]: Began executing node test.movielens_dbt.dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5.a6199a5fff
+[0m18:38:57.281802 [debug] [Thread-1 (]: Writing runtime sql for node "test.movielens_dbt.dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5.a6199a5fff"
+[0m18:38:57.278048 [debug] [Thread-4 (]: Began executing node test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00
+[0m18:38:57.284584 [debug] [Thread-4 (]: Writing runtime sql for node "test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00"
+[0m18:38:57.285596 [debug] [Thread-2 (]: Using duckdb connection "test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31"
+[0m18:38:57.287303 [debug] [Thread-2 (]: On test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31: BEGIN
+[0m18:38:57.288075 [debug] [Thread-2 (]: Opening a new connection, currently in state init
+[0m18:38:57.288863 [debug] [Thread-1 (]: Using duckdb connection "test.movielens_dbt.dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5.a6199a5fff"
+[0m18:38:57.286434 [debug] [Thread-3 (]: Using duckdb connection "test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f"
+[0m18:38:57.291012 [debug] [Thread-4 (]: Using duckdb connection "test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00"
+[0m18:38:57.291992 [debug] [Thread-1 (]: On test.movielens_dbt.dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5.a6199a5fff: BEGIN
+[0m18:38:57.292731 [debug] [Thread-2 (]: SQL status: OK in 0.005 seconds
+[0m18:38:57.293461 [debug] [Thread-3 (]: On test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f: BEGIN
+[0m18:38:57.294180 [debug] [Thread-4 (]: On test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00: BEGIN
+[0m18:38:57.294856 [debug] [Thread-1 (]: Opening a new connection, currently in state init
+[0m18:38:57.295526 [debug] [Thread-2 (]: Using duckdb connection "test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31"
+[0m18:38:57.296139 [debug] [Thread-3 (]: Opening a new connection, currently in state init
+[0m18:38:57.296767 [debug] [Thread-4 (]: Opening a new connection, currently in state init
+[0m18:38:57.297836 [debug] [Thread-2 (]: On test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "movielens_profile", "target_name": "dev", "node_id": "test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select movieId
+from "dbt_warehouse"."main"."dim_movies"
+where movieId is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m18:38:57.300356 [debug] [Thread-4 (]: SQL status: OK in 0.004 seconds
+[0m18:38:57.301000 [debug] [Thread-4 (]: Using duckdb connection "test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00"
+[0m18:38:57.298700 [debug] [Thread-1 (]: SQL status: OK in 0.004 seconds
+[0m18:38:57.299520 [debug] [Thread-3 (]: SQL status: OK in 0.003 seconds
+[0m18:38:57.303223 [debug] [Thread-3 (]: Using duckdb connection "test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f"
+[0m18:38:57.302534 [debug] [Thread-1 (]: Using duckdb connection "test.movielens_dbt.dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5.a6199a5fff"
+[0m18:38:57.304856 [debug] [Thread-3 (]: On test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "movielens_profile", "target_name": "dev", "node_id": "test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select idempotency_key
+from "dbt_warehouse"."main"."stg_ratings"
+where idempotency_key is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m18:38:57.301818 [debug] [Thread-4 (]: On test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "movielens_profile", "target_name": "dev", "node_id": "test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select rating
+from "dbt_warehouse"."main"."stg_ratings"
+where rating is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m18:38:57.310213 [debug] [Thread-1 (]: On test.movielens_dbt.dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5.a6199a5fff: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "movielens_profile", "target_name": "dev", "node_id": "test.movielens_dbt.dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5.a6199a5fff"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+
+with meet_condition as(
+  select *
+  from "dbt_warehouse"."main"."stg_ratings"
+),
+
+validation_errors as (
+  select *
+  from meet_condition
+  where
+    -- never true, defaults to an empty result set. Exists to ensure any combo of the `or` clauses below succeeds
+    1 = 2
+    -- records with a value >= min_value are permitted. The `not` flips this to find records that don't meet the rule.
+    or not rating >= 0.5
+    -- records with a value <= max_value are permitted. The `not` flips this to find records that don't meet the rule.
+    or not rating <= 5.0
+)
+
+select *
+from validation_errors
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m18:38:57.346432 [debug] [Thread-1 (]: SQL status: OK in 0.033 seconds
+[0m18:38:57.366758 [debug] [Thread-1 (]: On test.movielens_dbt.dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5.a6199a5fff: ROLLBACK
+[0m18:38:57.367979 [debug] [Thread-2 (]: SQL status: OK in 0.068 seconds
+[0m18:38:57.368809 [debug] [Thread-1 (]: On test.movielens_dbt.dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5.a6199a5fff: Close
+[0m18:38:57.375380 [debug] [Thread-2 (]: On test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31: ROLLBACK
+[0m18:38:57.376603 [debug] [Thread-2 (]: On test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31: Close
+[0m18:38:57.378040 [info ] [Thread-2 (]: 2 of 6 PASS not_null_dim_movies_movieId ........................................ [[32mPASS[0m in 0.21s]
+[0m18:38:57.379678 [debug] [Thread-2 (]: Finished running node test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31
+[0m18:38:57.380607 [debug] [Thread-2 (]: Began running node test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5
+[0m18:38:57.381438 [info ] [Thread-2 (]: 5 of 6 START test unique_dim_movies_movieId .................................... [RUN]
+[0m18:38:57.382308 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly test.movielens_dbt.not_null_dim_movies_movieId.a77d188c31, now test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5)
+[0m18:38:57.383018 [debug] [Thread-2 (]: Began compiling node test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5
+[0m18:38:57.372710 [info ] [Thread-1 (]: 1 of 6 PASS dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5 .............. [[32mPASS[0m in 0.20s]
+[0m18:38:57.391794 [debug] [Thread-1 (]: Finished running node test.movielens_dbt.dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5.a6199a5fff
+[0m18:38:57.392653 [debug] [Thread-1 (]: Began running node test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da
+[0m18:38:57.393800 [info ] [Thread-1 (]: 6 of 6 START test unique_stg_ratings_idempotency_key ........................... [RUN]
+[0m18:38:57.394725 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly test.movielens_dbt.dbt_utils_accepted_range_stg_ratings_rating__5_0__0_5.a6199a5fff, now test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da)
+[0m18:38:57.395688 [debug] [Thread-1 (]: Began compiling node test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da
+[0m18:38:57.416433 [debug] [Thread-1 (]: Writing injected SQL for node "test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da"
+[0m18:38:57.438647 [debug] [Thread-2 (]: Writing injected SQL for node "test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5"
+[0m18:38:57.440863 [debug] [Thread-2 (]: Began executing node test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5
+[0m18:38:57.444163 [debug] [Thread-2 (]: Writing runtime sql for node "test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5"
+[0m18:38:57.445924 [debug] [Thread-2 (]: Using duckdb connection "test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5"
+[0m18:38:57.446726 [debug] [Thread-2 (]: On test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5: BEGIN
+[0m18:38:57.447593 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m18:38:57.448664 [debug] [Thread-4 (]: SQL status: OK in 0.136 seconds
+[0m18:38:57.449800 [debug] [Thread-2 (]: SQL status: OK in 0.002 seconds
+[0m18:38:57.450692 [debug] [Thread-2 (]: Using duckdb connection "test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5"
+[0m18:38:57.454276 [debug] [Thread-2 (]: On test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "movielens_profile", "target_name": "dev", "node_id": "test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+select
+    movieId as unique_field,
+    count(*) as n_records
+
+from "dbt_warehouse"."main"."dim_movies"
+where movieId is not null
+group by movieId
+having count(*) > 1
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m18:38:57.453259 [debug] [Thread-4 (]: On test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00: ROLLBACK
+[0m18:38:57.460128 [debug] [Thread-4 (]: On test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00: Close
+[0m18:38:57.461578 [info ] [Thread-4 (]: 4 of 6 PASS not_null_stg_ratings_rating ........................................ [[32mPASS[0m in 0.29s]
+[0m18:38:57.464194 [debug] [Thread-4 (]: Finished running node test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00
+[0m18:38:57.480251 [debug] [Thread-1 (]: Began executing node test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da
+[0m18:38:57.486794 [debug] [Thread-1 (]: Writing runtime sql for node "test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da"
+[0m18:38:57.489159 [debug] [Thread-1 (]: Using duckdb connection "test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da"
+[0m18:38:57.490742 [debug] [Thread-1 (]: On test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da: BEGIN
+[0m18:38:57.492558 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m18:38:57.493976 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m18:38:57.494706 [debug] [Thread-1 (]: Using duckdb connection "test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da"
+[0m18:38:57.495798 [debug] [Thread-1 (]: On test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "movielens_profile", "target_name": "dev", "node_id": "test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+select
+    idempotency_key as unique_field,
+    count(*) as n_records
+
+from "dbt_warehouse"."main"."stg_ratings"
+where idempotency_key is not null
+group by idempotency_key
+having count(*) > 1
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m18:38:57.746898 [debug] [Thread-3 (]: SQL status: OK in 0.435 seconds
+[0m18:38:57.751436 [debug] [Thread-3 (]: On test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f: ROLLBACK
+[0m18:38:57.769039 [debug] [Thread-3 (]: On test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f: Close
+[0m18:38:57.770328 [info ] [Thread-3 (]: 3 of 6 PASS not_null_stg_ratings_idempotency_key ............................... [[32mPASS[0m in 0.60s]
+[0m18:38:57.774024 [debug] [Thread-3 (]: Finished running node test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f
+[0m18:38:57.841424 [debug] [Thread-2 (]: SQL status: OK in 0.386 seconds
+[0m18:38:57.843938 [debug] [Thread-2 (]: On test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5: ROLLBACK
+[0m18:38:57.845019 [debug] [Thread-2 (]: On test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5: Close
+[0m18:38:57.846140 [info ] [Thread-2 (]: 5 of 6 PASS unique_dim_movies_movieId .......................................... [[32mPASS[0m in 0.46s]
+[0m18:38:57.847333 [debug] [Thread-2 (]: Finished running node test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5
+[0m18:38:58.374272 [debug] [Thread-1 (]: SQL status: OK in 0.878 seconds
+[0m18:38:58.377852 [debug] [Thread-1 (]: On test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da: ROLLBACK
+[0m18:38:58.379049 [debug] [Thread-1 (]: On test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da: Close
+[0m18:38:58.380241 [info ] [Thread-1 (]: 6 of 6 PASS unique_stg_ratings_idempotency_key ................................. [[32mPASS[0m in 0.99s]
+[0m18:38:58.381496 [debug] [Thread-1 (]: Finished running node test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da
+[0m18:38:58.383703 [debug] [MainThread]: Using duckdb connection "master"
+[0m18:38:58.384711 [debug] [MainThread]: On master: BEGIN
+[0m18:38:58.385282 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m18:38:58.386355 [debug] [MainThread]: SQL status: OK in 0.001 seconds
+[0m18:38:58.386964 [debug] [MainThread]: On master: COMMIT
+[0m18:38:58.387553 [debug] [MainThread]: Using duckdb connection "master"
+[0m18:38:58.388122 [debug] [MainThread]: On master: COMMIT
+[0m18:38:58.388950 [debug] [MainThread]: SQL status: OK in 0.000 seconds
+[0m18:38:58.389549 [debug] [MainThread]: On master: Close
+[0m18:38:58.390838 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m18:38:58.391834 [debug] [MainThread]: Connection 'list_dbt_warehouse_main' was properly closed.
+[0m18:38:58.392508 [debug] [MainThread]: Connection 'test.movielens_dbt.not_null_stg_ratings_idempotency_key.ccbc80182f' was properly closed.
+[0m18:38:58.393033 [debug] [MainThread]: Connection 'test.movielens_dbt.unique_dim_movies_movieId.aa9033e6e5' was properly closed.
+[0m18:38:58.393558 [debug] [MainThread]: Connection 'test.movielens_dbt.unique_stg_ratings_idempotency_key.5cfc2762da' was properly closed.
+[0m18:38:58.394037 [debug] [MainThread]: Connection 'test.movielens_dbt.not_null_stg_ratings_rating.4e229d6e00' was properly closed.
+[0m18:38:58.394609 [info ] [MainThread]: 
+[0m18:38:58.395221 [info ] [MainThread]: Finished running 6 data tests in 0 hours 0 minutes and 1.47 seconds (1.47s).
+[0m18:38:58.398595 [debug] [MainThread]: Command end result
+[0m18:38:58.483271 [debug] [MainThread]: Wrote artifact WritableManifest to C:\Users\Сергей\dbt_project\target\manifest.json
+[0m18:38:58.489255 [debug] [MainThread]: Wrote artifact SemanticManifest to C:\Users\Сергей\dbt_project\target\semantic_manifest.json
+[0m18:38:58.495440 [debug] [MainThread]: Wrote artifact OsiDocument to C:\Users\Сергей\dbt_project\target\osi_document.json
+[0m18:38:58.511727 [debug] [MainThread]: Wrote artifact RunExecutionResult to C:\Users\Сергей\dbt_project\target\run_results.json
+[0m18:38:58.512377 [info ] [MainThread]: 
+[0m18:38:58.513011 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m18:38:58.513707 [info ] [MainThread]: 
+[0m18:38:58.514335 [info ] [MainThread]: Done. PASS=6 WARN=0 ERROR=0 SKIP=0 NO-OP=0 REUSED=0 TOTAL=6
+[0m18:38:58.515782 [debug] [MainThread]: Command `dbt test` succeeded at 18:38:58.515612 after 7.55 seconds
+[0m18:38:58.516367 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002152B5B38B0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002152AEB3F70>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002152B4AB9D0>]}
+[0m18:38:58.516939 [debug] [MainThread]: Flushing usage events
+[0m18:38:59.265786 [debug] [MainThread]: An error was encountered while trying to flush usage events

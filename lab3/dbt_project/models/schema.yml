@@ -1,0 +1,24 @@
+
+version: 2
+
+models:
+  - name: stg_ratings
+    columns:
+      - name: rating
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                  min_value: 0.5
+                  max_value: 5.0
+      - name: idempotency_key
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_movies
+    columns:
+      - name: movieId
+        tests:
+          - unique
+          - not_null
