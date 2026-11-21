@@ -1,0 +1,69 @@
+# ЛР-6, Часть 3, п.3. Autoscaling батч-задач через KEDA.
+#
+# KEDA масштабирует число executor'ов SparkApplication по lag в Kafka:
+# нет данных — платим за минимум (2 executor'а), появилась очередь — до 20.
+# Это и есть «правильный размер» кластера: cost per job падает без потери SLA.
+#
+# Валидация без кластера: kubectl apply --dry-run=client -f kubernetes/keda/scaledobject.yaml
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: spark-scaledobject
+  namespace: spark-operator
+spec:
+  scaleTargetRef:
+    apiVersion: sparkoperator.k8s.io/v1beta2
+    kind: SparkApplication
+    name: spark-production
+  # Держим «тёплый» минимум, чтобы не платить за холодный старт на каждый всплеск.
+  minReplicaCount: 2
+  maxReplicaCount: 20
+  pollingInterval: 15
+  cooldownPeriod: 120
+  advanced:
+    horizontalPodAutoscalerConfig:
+      behavior:
+        scaleDown:
+          stabilizationWindowSeconds: 300
+          policies:
+            - type: Percent
+              value: 50
+              periodSeconds: 60
+  triggers:
+    - type: kafka
+      metadata:
+        bootstrapServers: kafka:9092
+        consumerGroup: spark-group
+        topic: rating_events
+        lagThreshold: "1000"
+        activationLagThreshold: "100"
+      authenticationRef:
+        name: keda-kafka-secrets
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: keda-kafka-secrets
+  namespace: spark-operator
+type: Opaque
+stringData:
+  # В реальном кластере подставляется из vault/secret-менеджера, не из git.
+  sasl: "plaintext"
+  username: "spark"
+  password: "spark-secret"
+---
+# Часть 3, п.4. Cluster Autoscaler: когда поды не влезают — добавляем узел,
+# когда узлы простаивают — убираем. Порог 0.5 = «узел занят меньше половины».
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-autoscaler-config
+  namespace: kube-system
+data:
+  config: |
+    scaleDownUnneededTime: 30m
+    scaleDownDelayAfterAdd: 15m
+    scaleDownDelayAfterDelete: 5m
+    scaleDownUtilizationThreshold: 0.5
+    skipNodesWithLocalStorage: false
+    balanceSimilarNodeGroups: true

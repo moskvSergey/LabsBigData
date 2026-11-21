@@ -1,0 +1,49 @@
+{
+  "dataset": "data/sample_ratings.csv",
+  "rows": 20000,
+  "expectations_total": 8,
+  "expectations_failed": 0,
+  "success_ratio": 1.0,
+  "results": [
+    {
+      "expectation": "expect_table_columns_to_match_set",
+      "success": true,
+      "detail": "missing=[]"
+    },
+    {
+      "expectation": "expect_column_values_to_be_between",
+      "success": true,
+      "detail": "rating: нарушений 0"
+    },
+    {
+      "expectation": "expect_column_values_to_not_be_null",
+      "success": true,
+      "detail": "userId: null=0"
+    },
+    {
+      "expectation": "expect_column_values_to_not_be_null",
+      "success": true,
+      "detail": "movieId: null=0"
+    },
+    {
+      "expectation": "expect_column_values_to_be_between",
+      "success": true,
+      "detail": "userId: нарушений 0"
+    },
+    {
+      "expectation": "expect_column_values_to_be_between",
+      "success": true,
+      "detail": "movieId: нарушений 0"
+    },
+    {
+      "expectation": "expect_column_values_to_be_of_type",
+      "success": true,
+      "detail": "rating: float64"
+    },
+    {
+      "expectation": "expect_compound_columns_to_be_unique",
+      "success": true,
+      "detail": "дубликатов 0"
+    }
+  ]
+}

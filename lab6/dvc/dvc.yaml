@@ -1,0 +1,32 @@
+# ЛР-6, Часть 4, п.2. Data Version Control.
+# DVC версионирует данные отдельно от кода: в git попадают только .dvc-указатели
+# (хэш + размер), сами данные лежат в S3-совместимом хранилище.
+#
+# Команды инициализации (одноразово, уже выполнено для среза из ЛР-1):
+#   dvc init
+#   dvc add ../lab5/work/ratings_100mb.parquet
+#   git add .dvc config .gitignore work/ratings_100mb.parquet.dvc
+#   git commit -m "Add MovieLens ratings slice (ЛР-1)"
+#   dvc remote add -d storage s3://lab6-dvc/movielens
+#   dvc push
+
+stages:
+  validate:
+    desc: "Проверка качества среза перед обучением/ETL"
+    cmd: python ../tests/validate_data.py --path data/sample_ratings.csv --suite ../config/great_expectations/suites/ratings_suite.json
+    deps:
+      - data/sample_ratings.csv
+      - ../config/great_expectations/suites/ratings_suite.json
+      - ../tests/validate_data.py
+    outs:
+      - ../work/data_validation.json
+
+  cost-report:
+    desc: "Пересчёт cost-модели варианта 8 (baseline vs on-demand+spot)"
+    cmd: python ../resource_management/cost_model.py > ../work/cost_report.json
+    deps:
+      - ../resource_management/cost_model.py
+      - ../resource_management/cost_model.json
+    metrics:
+      - ../work/cost_report.json:
+          cache: false

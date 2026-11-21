@@ -1,0 +1,120 @@
+# ЛР-6, Часть 2. Spark Operator (kubebuilder-манифест) + SparkApplication.
+#
+# Вариант 8: 75% executor-времени на spot, driver — on-demand.
+# Установка (в кластере, который поднимает scripts/deploy.sh):
+#   kubectl apply -f https://github.com/kubeflow/spark-operator/releases/download/spark-operator-chart-2.1.0/spark-operator-chart-2.1.0.yaml
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: spark-operator
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: spark-operator
+  namespace: spark-operator
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: spark-operator-role
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "services", "configmaps", "events"]
+    verbs: ["*"]
+  - apiGroups: ["sparkoperator.k8s.io"]
+    resources: ["sparkapplications", "scheduledsparkapplications"]
+    verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: spark-operator-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: spark-operator-role
+subjects:
+  - kind: ServiceAccount
+    name: spark-operator
+    namespace: spark-operator
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-operator
+  namespace: spark-operator
+  labels:
+    app: spark-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spark-operator
+  template:
+    metadata:
+      labels:
+        app: spark-operator
+    spec:
+      serviceAccountName: spark-operator
+      containers:
+        - name: spark-operator
+          image: kubeflow/spark-operator:2.1.0
+          args:
+            - -v=2
+            - -controller-threads=4
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+---
+# GPU-профиль запуска (Часть 3, п.7): реальный GPU не требуется,
+# манифест проверяется через `kubectl apply --dry-run=client`.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: spark-gpu-batch
+  namespace: spark-operator
+  labels:
+    app: spark-gpu-batch
+spec:
+  backoffLimit: 2
+  template:
+    metadata:
+      labels:
+        app: spark-gpu-batch
+    spec:
+      restartPolicy: OnFailure
+      # Задача попадает только на узлы с GPU-меткой
+      nodeSelector:
+        accelerator: nvidia-gpu
+      # Терпим taint GPU-узлов, иначе под туда не поставят
+      tolerations:
+        - key: "nvidia.com/gpu"
+          operator: "Exists"
+          effect: "NoSchedule"
+      containers:
+        - name: spark-gpu
+          image: apache/spark:3.3.0
+          args:
+            - "spark-submit"
+            # Без spark.plugins ускорения не будет вовсе: код останется на CPU-пути,
+            # а карта будет простаивать.
+            - "--conf"
+            - "spark.plugins=com.nvidia.spark.SQLPlugin"
+            # Доля GPU на задачу: 0.25 => 4 задачи на один GPU-executor.
+            - "--conf"
+            - "spark.task.resource.gpu.amount=0.25"
+            - "local:///opt/spark/work-dir/gpu_job.py"
+          resources:
+            requests:
+              cpu: "4"
+              memory: "16Gi"
+              nvidia.com/gpu: 1
+            limits:
+              # Ровно 1 GPU на под: Spark не поддерживает несколько GPU на executor.
+              nvidia.com/gpu: 1

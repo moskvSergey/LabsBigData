@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+  ЛР-6, Часть 3, п.1. YARN Capacity Scheduler: очереди default/etl/ml.
+
+  ETL-очередь получает 60% кластера (батч-задачи на spot),
+  ML — 30% (инференс, on-demand), default — 10% (мелкие админские задачи).
+  Max-capacity позволяет очереди занять чужой простой, но не вытеснить его:
+  так SLA ML-инференса не страдает от батч-нагрузки.
+-->
+<configuration>
+  <property>
+    <name>yarn.scheduler.capacity.root.queues</name>
+    <value>default,etl,ml</value>
+  </property>
+
+  <property>
+    <name>yarn.scheduler.capacity.root.default.capacity</name>
+    <value>10</value>
+  </property>
+  <property>
+    <name>yarn.scheduler.capacity.root.default.maximum-capacity</name>
+    <value>20</value>
+  </property>
+  <property>
+    <name>yarn.scheduler.capacity.root.default.user-limit-factor</name>
+    <value>1</value>
+  </property>
+
+  <property>
+    <name>yarn.scheduler.capacity.root.etl.capacity</name>
+    <value>60</value>
+  </property>
+  <property>
+    <name>yarn.scheduler.capacity.root.etl.maximum-capacity</name>
+    <value>80</value>
+  </property>
+  <property>
+    <name>yarn.scheduler.capacity.root.etl.maximum-am-resource-percent</name>
+    <value>0.1</value>
+  </property>
+  <property>
+    <name>yarn.scheduler.capacity.root.etl.state</name>
+    <value>RUNNING</value>
+  </property>
+
+  <property>
+    <name>yarn.scheduler.capacity.root.ml.capacity</name>
+    <value>30</value>
+  </property>
+  <property>
+    <name>yarn.scheduler.capacity.root.ml.maximum-capacity</name>
+    <value>50</value>
+  </property>
+  <property>
+    <name>yarn.scheduler.capacity.root.ml.priority</name>
+    <value>10</value>
+  </property>
+  <property>
+    <name>yarn.scheduler.capacity.root.ml.state</name>
+    <value>RUNNING</value>
+  </property>
+
+  <!-- Предотвращаем «залипание» кластера за одной задачей -->
+  <property>
+    <name>yarn.scheduler.capacity.resource-calculator</name>
+    <value>org.apache.hadoop.yarn.util.resource.DominantResourceCalculator</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.scheduler.monitor.enable</name>
+    <value>true</value>
+  </property>
+</configuration>

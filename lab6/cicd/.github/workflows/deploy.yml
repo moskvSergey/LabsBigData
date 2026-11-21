@@ -1,0 +1,64 @@
+# ЛР-6, Часть 4, п.4. Безопасный деплой: staging -> smoke -> прод с автооткатом.
+name: Safe Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Версия образа для деплоя"
+        required: true
+        default: "lab6-model-server:1.0"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - uses: azure/setup-kubectl@v4
+        with:
+          version: v1.30.0
+
+      - name: Configure kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > $HOME/.kube/config
+
+      - name: Deploy to staging
+        run: |
+          kubectl apply -f kubernetes/deploy/staging.yaml
+          kubectl rollout status deployment/model-server -n lab6-staging --timeout=180s
+
+      - name: Run smoke tests
+        run: python cicd/scripts/smoke_test.py --endpoint "${{ secrets.STAGING_ENDPOINT }}" --wait 90
+
+      - name: Deploy canary to production
+        run: kubectl apply -f kubernetes/deploy/canary.yaml
+
+      - name: Compare versions by metrics
+        run: |
+          python cicd/scripts/check_metrics.py \
+            --endpoint "${{ secrets.PRODUCTION_ENDPOINT }}" \
+            --baseline-endpoint "${{ secrets.STAGING_ENDPOINT }}" \
+            --threshold 0.95
+
+      - name: Monitor production metrics
+        run: |
+          sleep 600   # в задании 1 час; в демо-стенде 10 минут
+          python cicd/scripts/check_metrics.py --endpoint "${{ secrets.PRODUCTION_ENDPOINT }}" --threshold 0.95
+
+      - name: Promote or rollback
+        if: always()
+        run: |
+          if [ "${{ job.status }}" = "success" ]; then
+            kubectl apply -f kubernetes/deploy/production.yaml
+          else
+            echo "Метрики ниже порога, откатываем"
+            bash cicd/scripts/rollback.sh lab6-prod lab6-model-server:1.0
+            exit 1
+          fi

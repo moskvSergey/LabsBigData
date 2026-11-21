@@ -1,0 +1,319 @@
+{
+  "checks_total": 48,
+  "checks_failed": 0,
+  "success_ratio": 1.0,
+  "metrics": {
+    "required_cost_savings": 40.0,
+    "achieved_cost_savings": 41.06,
+    "availability": 0.99999,
+    "cost_per_job": 4.0742,
+    "data_drift_score": 0.0022,
+    "data_drift_score_live": 0.0466,
+    "baseline_cost_per_job": 6.912,
+    "cost_optimization_factor": 1.697,
+    "required_availability": 0.995,
+    "required_latency_ms": 100.0,
+    "inference_p99_ms": 4.507,
+    "inference_p50_ms": 2.197,
+    "throughput_eps": 100.99,
+    "spot_fraction": 0.75,
+    "total_saved_usd": 2043.19,
+    "baseline_cost_total": 4976.64,
+    "optimized_cost_total": 2933.45,
+    "schema_compliance": 1.0,
+    "load_test_present": true,
+    "load_test_mode": "normal",
+    "events_ok": 800,
+    "events_failed": 0
+  },
+  "results": [
+    {
+      "group": "1. Контейнеризация",
+      "check": "Dockerfile model server",
+      "ok": true,
+      "where": "Часть 1"
+    },
+    {
+      "group": "1. Контейнеризация",
+      "check": "Dockerfile Spark",
+      "ok": true,
+      "where": "Часть 1"
+    },
+    {
+      "group": "1. Контейнеризация",
+      "check": "Dockerfile load generator",
+      "ok": true,
+      "where": "Часть 1"
+    },
+    {
+      "group": "1. Контейнеризация",
+      "check": "docker-compose.yml",
+      "ok": true,
+      "where": "Часть 1"
+    },
+    {
+      "group": "1. Контейнеризация",
+      "check": "multi-stage build (многоступенчатая сборка)",
+      "ok": true,
+      "where": "Часть 1, п.2"
+    },
+    {
+      "group": "1. Контейнеризация",
+      "check": "лимиты ресурсов в compose (limits/reservations)",
+      "ok": true,
+      "where": "Часть 1, п.3"
+    },
+    {
+      "group": "1. Контейнеризация",
+      "check": "лимиты памяти и CPU для компонентов",
+      "ok": true,
+      "where": "Часть 1, п.3"
+    },
+    {
+      "group": "2. Kubernetes",
+      "check": "Spark Operator / SparkApplication",
+      "ok": true,
+      "where": "Часть 2, п.1"
+    },
+    {
+      "group": "2. Kubernetes",
+      "check": "Spark driver на on-demand, executor на spot",
+      "ok": true,
+      "where": "Часть 2"
+    },
+    {
+      "group": "2. Kubernetes",
+      "check": "Spot-toleration в SparkApplication",
+      "ok": true,
+      "where": "Часть 3, п.5"
+    },
+    {
+      "group": "2. Kubernetes",
+      "check": "Anti-affinity executor'ов",
+      "ok": true,
+      "where": "Часть 2, п.2"
+    },
+    {
+      "group": "2. Kubernetes",
+      "check": "Flink Operator / FlinkDeployment",
+      "ok": true,
+      "where": "Часть 2, п.1"
+    },
+    {
+      "group": "2. Kubernetes",
+      "check": "StatefulSet с PVC для TaskManager'ов",
+      "ok": true,
+      "where": "Часть 2, п.3"
+    },
+    {
+      "group": "2. Kubernetes",
+      "check": "KEDA ScaledObject по lag в Kafka",
+      "ok": true,
+      "where": "Часть 3, п.3"
+    },
+    {
+      "group": "2. Kubernetes",
+      "check": "Cluster Autoscaler ConfigMap",
+      "ok": true,
+      "where": "Часть 3, п.4"
+    },
+    {
+      "group": "2. Kubernetes",
+      "check": "GPU-профиль запуска",
+      "ok": true,
+      "where": "Часть 3, п.7"
+    },
+    {
+      "group": "2. Kubernetes",
+      "check": "spark.plugins=com.nvidia.spark.SQLPlugin",
+      "ok": true,
+      "where": "Часть 3, п.7"
+    },
+    {
+      "group": "2. Kubernetes",
+      "check": "spark.task.resource.gpu.amount задан",
+      "ok": true,
+      "where": "Часть 3, п.7"
+    },
+    {
+      "group": "3. Управление ресурсами и cost",
+      "check": "YARN capacity-scheduler: очереди default/etl/ml",
+      "ok": true,
+      "where": "Часть 3, п.1"
+    },
+    {
+      "group": "3. Управление ресурсами и cost",
+      "check": "dynamic allocation включён",
+      "ok": true,
+      "where": "Часть 3, п.2"
+    },
+    {
+      "group": "3. Управление ресурсами и cost",
+      "check": "memory fraction настроен",
+      "ok": true,
+      "where": "Часть 3, п.6"
+    },
+    {
+      "group": "3. Управление ресурсами и cost",
+      "check": "экономия затрат >= 40% (вариант 8)",
+      "ok": true,
+      "where": "Часть 3, п.6 (получено 41.06%)"
+    },
+    {
+      "group": "3. Управление ресурсами и cost",
+      "check": "cost optimization factor > 1.5",
+      "ok": true,
+      "where": "Часть 3 (получено 1.70x)"
+    },
+    {
+      "group": "3. Управление ресурсами и cost",
+      "check": "график снижения затрат",
+      "ok": true,
+      "where": "Часть 3, отчёт"
+    },
+    {
+      "group": "4. CI/CD для данных",
+      "check": "GitHub Actions CI (validate/test/deploy)",
+      "ok": true,
+      "where": "Часть 4, п.1"
+    },
+    {
+      "group": "4. CI/CD для данных",
+      "check": "Data validation в CI (Great Expectations)",
+      "ok": true,
+      "where": "Часть 4, п.1"
+    },
+    {
+      "group": "4. CI/CD для данных",
+      "check": "DVC-конфигурация",
+      "ok": true,
+      "where": "Часть 4, п.2"
+    },
+    {
+      "group": "4. CI/CD для данных",
+      "check": "Delta Lake версионирование",
+      "ok": true,
+      "where": "Часть 4, п.3"
+    },
+    {
+      "group": "4. CI/CD для данных",
+      "check": "Canary release",
+      "ok": true,
+      "where": "Часть 4, п.4"
+    },
+    {
+      "group": "4. CI/CD для данных",
+      "check": "Автоматический откат",
+      "ok": true,
+      "where": "Часть 4, п.4"
+    },
+    {
+      "group": "4. CI/CD для данных",
+      "check": "Smoke tests",
+      "ok": true,
+      "where": "Часть 4, п.4"
+    },
+    {
+      "group": "4. CI/CD для данных",
+      "check": "Сравнение версий по метрикам",
+      "ok": true,
+      "where": "Часть 4, п.4"
+    },
+    {
+      "group": "5. Мониторинг и алертинг",
+      "check": "Prometheus: инфраструктурный уровень",
+      "ok": true,
+      "where": "Часть 5, п.1"
+    },
+    {
+      "group": "5. Мониторинг и алертинг",
+      "check": "Prometheus: уровень приложения",
+      "ok": true,
+      "where": "Часть 5, п.1"
+    },
+    {
+      "group": "5. Мониторинг и алертинг",
+      "check": "Алерты: spill и drift",
+      "ok": true,
+      "where": "Часть 5, п.2"
+    },
+    {
+      "group": "5. Мониторинг и алертинг",
+      "check": "Алерты SLA и cost",
+      "ok": true,
+      "where": "Часть 5, п.2"
+    },
+    {
+      "group": "5. Мониторинг и алертинг",
+      "check": "Дашборд 1: инфраструктура",
+      "ok": true,
+      "where": "Часть 5, п.3"
+    },
+    {
+      "group": "5. Мониторинг и алертинг",
+      "check": "Дашборд 2: приложение",
+      "ok": true,
+      "where": "Часть 5, п.3"
+    },
+    {
+      "group": "5. Мониторинг и алертинг",
+      "check": "Дашборд 3: качество данных",
+      "ok": true,
+      "where": "Часть 5, п.3"
+    },
+    {
+      "group": "5. Мониторинг и алертинг",
+      "check": "Интеграция мониторинга с CI/CD",
+      "ok": true,
+      "where": "Часть 5, п.4"
+    },
+    {
+      "group": "6. Тестирование и валидация",
+      "check": "Генератор нагрузки",
+      "ok": true,
+      "where": "Часть 6, п.1"
+    },
+    {
+      "group": "6. Тестирование и валидация",
+      "check": "Режимы normal/peak/fail/late",
+      "ok": true,
+      "where": "Часть 6, п.2"
+    },
+    {
+      "group": "6. Тестирование и валидация",
+      "check": "Проверка cost optimization",
+      "ok": true,
+      "where": "Часть 6, п.3"
+    },
+    {
+      "group": "6. Тестирование и валидация",
+      "check": "Проверка SLA",
+      "ok": true,
+      "where": "Часть 6, п.3"
+    },
+    {
+      "group": "6. Тестирование и валидация",
+      "check": "Валидация K8s-манифестов",
+      "ok": true,
+      "where": "Часть 6, п.3"
+    },
+    {
+      "group": "6. Тестирование и валидация",
+      "check": "Валидация данных (GX-совместимо)",
+      "ok": true,
+      "where": "Часть 4, п.1"
+    },
+    {
+      "group": "6. Тестирование и валидация",
+      "check": "README.md с вариантом и инструкцией",
+      "ok": true,
+      "where": "Оформление"
+    },
+    {
+      "group": "7. Манифесты",
+      "check": "offline validation",
+      "ok": true,
+      "where": "SPOT_TOLERATIONS=PASS; GPU_PROFILE=PASS; MANIFEST_ERRORS=0"
+    }
+  ]
+}

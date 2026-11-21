@@ -1,0 +1,135 @@
+# ЛР-6, Часть 4, п.1. Data CI/CD: validate -> test -> cost gate -> canary deploy.
+#
+# Три независимых гейта перед продом:
+#   1) validate  — качество данных (Great Expectations-совместимая проверка + K8s-манифесты);
+#   2) test      — unit-тесты и проверка уникального требования варианта 8 (экономия >= 40%);
+#   3) deploy    — canary 5% -> smoke tests -> метрики -> 100% или автоматический откат.
+
+name: Data Pipeline CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  # ---------------------------------------------------------------- 1. validate
+  validate:
+    name: Валидация данных и манифестов
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml pandas pyarrow
+
+      - name: Validate Kubernetes manifests (dry-run без кластера)
+        run: |
+          pip install pyyaml
+          python tests/validate_manifests.py --dir kubernetes --strict-labels
+
+      - name: Run data validation
+        # Great Expectations-совместимая проверка: схема + диапазоны + уникальность
+        run: python tests/validate_data.py --path data/sample_ratings.csv --suite config/great_expectations/suites/ratings_suite.json
+
+  # -------------------------------------------------------------------- 2. test
+  test:
+    name: Тесты и cost-гейт варианта 8
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml pandas pyarrow
+
+      - name: Run ETL/DevOps tests
+        run: python tests/check_requirements.py --work-dir work
+
+      - name: Cost gate (уникальное требование: -40%)
+        run: |
+          python - <<'PY'
+          import json, subprocess, sys
+          out = subprocess.run([sys.executable, "resource_management/cost_model.py"],
+                               capture_output=True, text=True, check=True).stdout
+          report = json.loads(out)
+          print(json.dumps(report, ensure_ascii=False, indent=2))
+          assert report["cost_savings_pct"] >= 40, f'экономия {report["cost_savings_pct"]}% < 40%'
+          assert report["availability"] >= 0.995, f'доступность {report["availability"]} < 0.995'
+          PY
+
+      - name: Upload metrics artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lab6-metrics
+          path: work/*.json
+
+  # ------------------------------------------------------------------ 3. deploy
+  deploy:
+    name: Безопасный деплой (canary + автооткат)
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: v1.30.0
+
+      - name: Configure kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > $HOME/.kube/config
+          kubectl cluster-info
+
+      - name: Dry-run canary manifest
+        run: kubectl apply --dry-run=client -f kubernetes/deploy/canary.yaml
+
+      - name: Deploy canary (5% трафика)
+        run: kubectl apply -f kubernetes/deploy/canary.yaml
+
+      - name: Smoke tests
+        run: python cicd/scripts/smoke_test.py --endpoint "${{ secrets.STAGING_ENDPOINT }}" --wait 60
+
+      - name: Canary observation window
+        run: |
+          echo "Наблюдаем 5 минут (в задании — 1 час) за метриками canary"
+          sleep 300
+
+      - name: Metrics gate
+        id: gate
+        run: python cicd/scripts/check_metrics.py --endpoint "${{ secrets.STAGING_ENDPOINT }}" --threshold 0.95
+
+      - name: Promote to 100%
+        if: steps.gate.outcome == 'success'
+        run: kubectl apply -f kubernetes/deploy/production.yaml
+
+      - name: Rollback on failure
+        if: failure()
+        run: |
+          echo "Метрики ниже порога — откатываем на предыдущую версию"
+          bash cicd/scripts/rollback.sh lab6-prod lab6-model-server:1.0
+          exit 1

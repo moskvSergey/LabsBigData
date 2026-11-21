@@ -1,0 +1,74 @@
+# ЛР-6, Часть 5. Prometheus: сбор метрик со всех уровней.
+
+global:
+  scrape_interval: 10s
+  evaluation_interval: 15s
+  external_labels:
+    lab: lab6
+    variant: "8"
+
+rule_files:
+  - /etc/prometheus/alerts.yml
+
+scrape_configs:
+  # --- Уровень приложения: model server (latency, RPS, ошибки) ---
+  - job_name: 'model-server'
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['model-server:8000']
+        labels:
+          level: application
+          tier: ml
+
+  # --- Уровень приложения: Spark/Flink (в кластере это pod-аннотации) ---
+  - job_name: 'spark-driver'
+    metrics_path: /metrics/prometheus
+    static_configs:
+      - targets: ['spark-driver-svc:4040']
+        labels:
+          level: application
+          tier: spark
+
+  - job_name: 'flink-jobmanager'
+    static_configs:
+      - targets: ['flink-jobmanager:9249']
+        labels:
+          level: application
+          tier: flink
+
+  - job_name: 'flink-taskmanager'
+    static_configs:
+      - targets: ['flink-taskmanager:9249']
+        labels:
+          level: application
+          tier: flink
+
+  # --- Уровень инфраструктуры: ноды кластера (kubelet + node-exporter) ---
+  - job_name: 'kubernetes-nodes'
+    scheme: https
+    tls_config:
+      insecure_skip_verify: true
+    bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+    kubernetes_sd_configs:
+      - role: node
+    relabel_configs:
+      - source_labels: [__address__]
+        regex: '(.*):10250'
+        replacement: '${1}:9100'
+        target_label: __address__
+      - action: labelmap
+        regex: __meta_kubernetes_node_label_(.+)
+      - target_label: level
+        replacement: infrastructure
+
+  # --- Уровень инфраструктуры: kube-state-metrics (поды, HPA, spot-узлы) ---
+  - job_name: 'kube-state-metrics'
+    static_configs:
+      - targets: ['kube-state-metrics.kube-system:8080']
+        labels:
+          level: infrastructure
+
+  # --- Сам Prometheus ---
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']

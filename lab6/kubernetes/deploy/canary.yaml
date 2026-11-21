@@ -1,0 +1,78 @@
+# ЛР-6, Часть 4, п.4. Canary: новая версия отдельным Deployment'ом, прод
+# (`kubernetes/deploy/production.yaml`) остаётся на прежней версии.
+#
+# Набор идемпотентен: stable-трек применяется здесь с replicas: 0, а манифест
+# прода правит только масштаб именно своего Deployment'а — имена не конфликтуют.
+# Наблюдение за метриками: cicd/scripts/check_metrics.py --baseline-endpoint ...
+# Продвижение или откат делает CI/CD (kubernetes/deploy/production.yaml |
+# rollback.yaml).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-server-canary
+  namespace: lab6-prod
+  labels:
+    app: model-server
+    track: canary
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: model-server
+      track: canary
+  template:
+    metadata:
+      labels:
+        app: model-server
+        track: canary
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
+    spec:
+      # Новая версия сначала идёт на spot: если что-то не так — теряем мало.
+      nodeSelector:
+        node-pool: spot
+      tolerations:
+        - key: "spot"
+          operator: "Equal"
+          value: "true"
+          effect: "NoSchedule"
+      containers:
+        - name: model-server
+          image: lab6-model-server:1.0
+          env:
+            - name: MODEL_VERSION
+              value: lab6-lr-1.1-canary
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "1"
+              memory: "512Mi"
+          livenessProbe:
+            httpGet: {path: /health, port: 8000}
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          readinessProbe:
+            httpGet: {path: /health, port: 8000}
+            initialDelaySeconds: 5
+            periodSeconds: 10
+---
+# Служебный Service, чтобы CI мог обращаться к канареечному поду напрямую
+# (`smoke_test.py --endpoint http://model-server-canary...`) и сравнивать его
+# метрики с baseline-эндпоинтом.
+apiVersion: v1
+kind: Service
+metadata:
+  name: model-server-canary
+  namespace: lab6-prod
+spec:
+  selector:
+    app: model-server
+    track: canary
+  ports:
+    - port: 80
+      targetPort: 8000

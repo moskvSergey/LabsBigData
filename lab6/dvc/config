@@ -1,0 +1,6 @@
+# ЛР-6, Часть 4, п.2. Локальный remote для DVC (демо-стенд без S3).
+# В production заменяется на s3://lab6-dvc/movielens или gs://...
+[core]
+    remote = localstorage
+['remote "localstorage"']
+    url = ../dvc-storage

@@ -1,0 +1,39 @@
+{
+  "variant": 8,
+  "requirement": "Снизить затраты на 40% через комбинацию on-demand и spot",
+  "scenario": "Рекомендательная система (MovieLens ml-32m)",
+  "sla": {
+    "availability": 0.995,
+    "inference_latency_ms": 100
+  },
+  "instance": {
+    "type": "c5.4xlarge",
+    "vcpu": 16,
+    "memory_gb": 32,
+    "on_demand_usd_per_hour": 0.768,
+    "spot_usd_per_hour": 0.2688
+  },
+  "job": {
+    "name": "ratings_etl_hourly",
+    "executor_hours_per_run": 8.0,
+    "executors": 4,
+    "driver_on_demand_hours_per_run": 1.0,
+    "runs_per_day": 24
+  },
+  "baseline": {
+    "spot_fraction": 0.0,
+    "description": "Все executor'ы на on-demand, без dynamic allocation"
+  },
+  "optimized": {
+    "spot_fraction": 0.75,
+    "spot_fault_tolerance_overhead": 0.05,
+    "recovery_seconds_per_interruption": 90,
+    "nodes": 6,
+    "capacity_headroom": 0.2,
+    "driver_spot_fraction": 0.0,
+    "description": "75% executor-времени на spot (stateless, checkpoint+retry), driver и JobManager — on-demand"
+  },
+  "spot_interruptions_per_node_per_month": 0.05,
+  "seconds_per_month": 2592000,
+  "history_days": 30
+}

@@ -1,0 +1,131 @@
+# ЛР-6, Часть 5, п.2. Алерты Prometheus.
+#
+# Четыре группы: SLA (задержка/доступность), стоимость, дрейф данных,
+# инфраструктура. Каждый алерт имеет severity и «что делать» в описании —
+# стратегия реагирования описана в README, раздел 6.
+
+groups:
+  # --------------------------------------------------------- SLA и доступность
+  - name: lab6-sla
+    rules:
+      - alert: HighInferenceLatencyP99
+        expr: lab6_inference_latency_ms_ms{quantile="0.99"} > 100
+        for: 2m
+        labels:
+          severity: critical
+          runbook: "scale-up-model-server"
+        annotations:
+          summary: "p99 инференса превышает SLA 100 мс"
+          description: "p99 = {{ $value }} мс. Действие: поднять реплики model-server (HPA/KEDA) или проверить CPU-throttling."
+
+      - alert: HighInferenceLatencyP95
+        expr: lab6_inference_latency_ms_ms{quantile="0.95"} > 50
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "p95 инференса приближается к SLA"
+          description: "p95 = {{ $value }} мс при бюджете 100 мс."
+
+      - alert: ServiceUnavailable
+        expr: up{job="model-server"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          runbook: "check-spot-eviction"
+        annotations:
+          summary: "model-server недоступен"
+          description: "Возможная причина — вытеснение spot-пода. Проверить события kubelet и перезапуск с checkpoint."
+
+      - alert: HighErrorRate
+        expr: rate(lab6_errors_total[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Рост ошибок инференса"
+          description: "{{ $value }} ошибок/с за 5 минут."
+
+  # ----------------------------------------------------------------- стоимость
+  - name: lab6-cost
+    rules:
+      - alert: CostSavingsBelowTarget
+        expr: lab6_cost_savings_pct < 40
+        for: 30m
+        labels:
+          severity: warning
+          runbook: "increase-spot-fraction"
+        annotations:
+          summary: "Экономия ниже целевых 40% (вариант 8)"
+          description: "Текущая экономия {{ $value }}%. Проверить долю spot-исполнителей и dynamic allocation."
+
+      - alert: CostPerJobHigh
+        expr: lab6_cost_per_job_usd > 4.5
+        for: 30m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Cost per job выше бюджета"
+          description: "Cost per job = ${{ $value }} (оптимизированная цель: $4.07)."
+
+      - alert: SpotNodeEvictions
+        expr: increase(kube_node_status_condition{condition="Ready",status="false"}[15m]) > 2
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Частые вытеснения spot-узлов"
+          description: "Более 2 вытеснений за 15 минут — вырастет overhead на пересчёт stage."
+
+  # -------------------------------------------------------------- качество данных
+  - name: lab6-data-quality
+    rules:
+      - alert: HighDataDrift
+        expr: lab6_data_drift_psi > 0.2
+        for: 5m
+        labels:
+          severity: critical
+          runbook: "retrain-model"
+        annotations:
+          summary: "Высокий data drift"
+          description: "PSI = {{ $value }} > 0.2. Действие: переобучить модель на свежем срезе и проверить схему."
+
+      - alert: SchemaComplianceLow
+        expr: lab6_schema_compliance_ratio < 0.99
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Схема данных нарушена"
+          description: "Доля валидных записей {{ $value }} < 0.99. Смотреть DLQ и Great Expectations."
+
+  # ------------------------------------------------------------ инфраструктура
+  - name: lab6-infrastructure
+    rules:
+      - alert: HighShuffleSpill
+        expr: spark_shuffle_spill_memory > 1e9
+        for: 10m
+        labels:
+          severity: warning
+          runbook: "increase-partitions"
+        annotations:
+          summary: "Высокий spill в Spark shuffle"
+          description: "Spill превысил 1 ГБ за 10 минут. Действие: поднять spark.sql.shuffle.partitions или memory.fraction."
+
+      - alert: ContainerMemoryNearLimit
+        expr: container_memory_working_set_bytes / container_spec_memory_limit_bytes > 0.9
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Контейнер у предела памяти"
+          description: "{{ $labels.pod }} использует {{ $value | humanizePercentage }} лимита — риск OOMKilled."
+
+      - alert: CheckpointDurationHigh
+        expr: flink_jobmanager_job_lastCheckpointDuration > 30000
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Checkpoint Flink длится долго"
+          description: "{{ $value }} мс — при вытеснении spot-узла вырастет время восстановления."

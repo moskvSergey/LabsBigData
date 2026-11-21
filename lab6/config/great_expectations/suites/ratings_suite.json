@@ -1,0 +1,53 @@
+{
+  "expectation_suite_name": "ratings_suite",
+  "ge_cloud_id": null,
+  "meta": {
+    "great_expectations_version": "0.18.12",
+    "notes": "ЛР-6: минимальный набор проверок среза MovieLens перед ETL"
+  },
+  "expectations": [
+    {
+      "expectation_type": "expect_table_columns_to_match_set",
+      "kwargs": {
+        "column_set": ["userId", "movieId", "rating", "timestamp"],
+        "exact_match": false
+      },
+      "meta": {"notes": "Схема должна содержать ключевые колонки среза"}
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {"column": "rating", "min_value": 0.5, "max_value": 5.0},
+      "meta": {"notes": "MovieLens: оценки от 0.5 до 5.0"}
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {"column": "userId"},
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {"column": "movieId"},
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {"column": "userId", "min_value": 1},
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {"column": "movieId", "min_value": 1},
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_of_type",
+      "kwargs": {"column": "rating", "type_": "float"},
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_compound_columns_to_be_unique",
+      "kwargs": {"column_list": ["userId", "movieId", "timestamp"]},
+      "meta": {"notes": "Один пользователь — одна оценка фильма в одну секунду"}
+    }
+  ]
+}

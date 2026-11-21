@@ -1,0 +1,12 @@
+{
+  "dataset": "data\\sample_ratings.csv",
+  "rows": 20000,
+  "reference_rows": 10000,
+  "current_rows": 10000,
+  "data_drift_psi": 0.0022,
+  "threshold_watch": 0.1,
+  "threshold_critical": 0.2,
+  "verdict": "OK",
+  "injected_drift": 0.0,
+  "note": "Контрольный замер: два окна одного среза дают PSI ~0. Флаг --inject-drift сдвигает продовое окно и показывает, что алерт HighDataDrift (PSI > 0.2) действительно срабатывает."
+}

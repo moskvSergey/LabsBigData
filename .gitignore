@@ -16,3 +16,13 @@ venv/
 spark-warehouse/
 metastore_db/
 derby.log
+
+# ЛР-6: воспроизводимые артефакты отчёта коммитим — они маленькие
+# и на них ссылается README (график снижения затрат, метрики, отчёты).
+!lab6/data/sample_ratings.csv
+!lab6/work/
+!lab6/work/*.json
+!lab6/work/*.png
+
+# Временный дамп текста задания
+_lab6_task.txt

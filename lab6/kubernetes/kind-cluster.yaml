@@ -1,0 +1,23 @@
+# ЛР-6. Kind-кластер: два пула узлов под стратегию «on-demand + spot».
+#
+#   lab6-worker       — node-pool=on-demand: драйвер Spark, JobManager,
+#                       «якорная» реплика model-server;
+#   lab6-worker2      — node-pool=spot + taint spot=true:NoSchedule:
+#                       Spark-executor'ы и основные реплики сервиса.
+#
+# Taint заставляет spot-узлы принимать только те поды, у которых есть
+# соответствующая toleration — ровно как в манифестах варианта 8.
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: lab6
+nodes:
+  - role: control-plane
+    labels:
+      node-pool: on-demand
+  - role: worker
+    labels:
+      node-pool: on-demand
+  - role: worker
+    labels:
+      node-pool: spot
+      karpenter.sh/capacity-type: spot

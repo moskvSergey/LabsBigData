@@ -1,0 +1,182 @@
+# ЛР-6, Часть 4, п.4. Production: promoted-версия на 100% трафика.
+#
+# Применяется после того, как canary прошёл metrics-гейт
+# (cicd/scripts/check_metrics.py -> DEPLOY_DECISION=PROMOTE).
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lab6-prod
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-server
+  namespace: lab6-prod
+  labels:
+    app: model-server
+    track: stable
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: model-server
+      track: stable
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0      # ни одного недоступного пода при выкатке
+  template:
+    metadata:
+      labels:
+        app: model-server
+        track: stable
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
+    spec:
+      # Смешанная стратегия варианта 8:
+      #   * 6 реплик на spot (дешёвая ёмкость, переживают вытеснение за счёт репликации);
+      #   * 1 «якорная» реплика на on-demand (model-server-anchor) — страховка SLA.
+      # Доля spot в cost-модели (resource_management/cost_model.json) — 75%.
+      nodeSelector:
+        node-pool: spot
+      tolerations:
+        - key: "spot"
+          operator: "Equal"
+          value: "true"
+          effect: "NoSchedule"
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values: ["model-server"]
+              topologyKey: kubernetes.io/hostname
+      containers:
+        - name: model-server
+          image: lab6-model-server:1.0
+          env:
+            - name: MODEL_VERSION
+              value: lab6-lr-1.1
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "2"
+              memory: "1Gi"
+          livenessProbe:
+            httpGet: {path: /health, port: 8000}
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          readinessProbe:
+            httpGet: {path: /health, port: 8000}
+            initialDelaySeconds: 5
+            periodSeconds: 10
+---
+# Отдельный под на on-demand: «якорь» доступности при вытеснении spot.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-server-anchor
+  namespace: lab6-prod
+  labels:
+    app: model-server
+    track: anchor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: model-server
+      track: anchor
+  template:
+    metadata:
+      labels:
+        app: model-server
+        track: anchor
+    spec:
+      nodeSelector:
+        node-pool: on-demand
+      tolerations:
+        - key: "on-demand"
+          operator: "Equal"
+          value: "true"
+          effect: "NoSchedule"
+      containers:
+        - name: model-server
+          image: lab6-model-server:1.0
+          env:
+            - name: MODEL_VERSION
+              value: lab6-lr-1.1
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "1"
+              memory: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: model-server
+  namespace: lab6-prod
+spec:
+  selector:
+    app: model-server
+  ports:
+    - port: 80
+      targetPort: 8000
+---
+# HPA: при росте задержки добавляем реплики, в простое — сжимаемся.
+# Именно это даёт «правильный размер» кластера и cost per job $4.07.
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: model-server
+  namespace: lab6-prod
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: model-server
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 65
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+        - type: Percent
+          value: 50
+          periodSeconds: 60
+    scaleUp:
+      stabilizationWindowSeconds: 30
+      policies:
+        - type: Percent
+          value: 100
+          periodSeconds: 30
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: model-server
+  namespace: lab6-prod
+spec:
+  minAvailable: 80%
+  selector:
+    matchLabels:
+      app: model-server

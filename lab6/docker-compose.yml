@@ -1,0 +1,167 @@
+# ЛР-6. Стенд целиком: минимальный production-контур демо.
+#
+# Вариант 8 (последняя цифра зачётки) — снижение затрат на 40% через
+# комбинацию on-demand и spot, без ущерба для SLA (доступность >= 99.5%,
+# инференс < 100 мс).
+#
+# Запуск:   docker compose up -d --build
+# Проверка: docker compose run --rm tests        (там печатается ## METRICS ##)
+#           docker compose logs -f load-generator
+#
+# Сервисы:
+#   model-server   — инференс + /metrics           :8000
+#   redis          — feature store                 :6379
+#   load-generator — генератор нагрузки и замеры
+#   prometheus     — сбор метрик                   :9090
+#   grafana        — 3 дашборда                    :3000
+#
+# Kubernetes (kind/minikube) поднимается отдельно: scripts/deploy.sh
+# (в docker compose его ставить нельзя — нужен docker-сокет хоста).
+
+services:
+
+  # ------------------------------------------------------------ feature store
+  redis:
+    image: redis:7.2-alpine
+    container_name: lab6-redis
+    command: ["redis-server", "--save", "", "--appendonly", "no", "--maxmemory", "512mb", "--maxmemory-policy", "allkeys-lru"]
+    ports:
+      - "6379:6379"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 768M               # Redis + запас на фрагментацию
+        reservations:
+          cpus: '0.1'
+          memory: 256M
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # ------------------------------------------------------------- model server
+  model-server:
+    build:
+      context: ./model_server
+    image: lab6-model-server:1.0
+    container_name: lab6-model-server
+    environment:
+      MODEL_VERSION: lab6-lr-1.0
+      REDIS_HOST: redis
+    ports:
+      - "8000:8000"
+    depends_on:
+      redis:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    # Именно эти лимиты дают «правильные размеры инстансов» (Часть 3):
+    # запрос 0.5 CPU против лимита 2 CPU — HPA/KEDA видит реальную утилизацию.
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8000/health || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  # ------------------------------------------------------------ load generator
+  load-generator:
+    build:
+      context: .
+      dockerfile: load_generator/Dockerfile
+    image: lab6-load-generator:1.0
+    container_name: lab6-load-generator
+    environment:
+      MODEL_URL: http://model-server:8000
+      # Срез датасета из ЛР-1..ЛР-3 (реальные оценки MovieLens)
+      RATINGS_PATH: /data/ratings_100mb.parquet
+      WORK_DIR: /work
+    # MODE/EVENTS/RATE задаются переменными окружения хоста или .env:
+    #   $env:MODE="peak"; docker compose run --rm load-generator   (PowerShell)
+    #   MODE=peak docker compose run --rm load-generator            (bash)
+    # Флаг `run -e` их не переопределит: docker compose подставляет значения
+    # из environment/compose-файла раньше, чем аргументы командной строки.
+    command: ["python", "generator.py", "--mode", "${MODE:-normal}", "--events", "${EVENTS:-600}"]
+    volumes:
+      - ./work:/work
+      - ../lab2/work/ratings_100mb.parquet:/data/ratings_100mb.parquet:ro
+    depends_on:
+      model-server:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    restart: "no"
+
+  # ---------------------------------------------------------------- monitoring
+  prometheus:
+    image: prom/prometheus:v2.53.0
+    container_name: lab6-prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.retention.time=7d"
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./monitoring/prometheus/alerts.yml:/etc/prometheus/alerts.yml:ro
+    ports:
+      - "9090:9090"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:11.1.0
+    container_name: lab6-grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-admin}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+    restart: unless-stopped
+
+  # ------------------------------------------------------------------- tests
+  tests:
+    build:
+      context: .
+      dockerfile: tests/Dockerfile
+    image: lab6-tests:1.0
+    container_name: lab6-tests
+    environment:
+      COST_MODEL_CONFIG: /app/resource_management/cost_model.json
+      LOAD_TEST_JSON: /work/load_test.json
+      K8S_DIR: /app/kubernetes
+      WORK_DIR: /work
+    volumes:
+      - ./work:/work
+      - ./kubernetes:/app/kubernetes:ro
+    working_dir: /app
+    command: ["python", "tests/check_requirements.py"]
+    restart: "no"

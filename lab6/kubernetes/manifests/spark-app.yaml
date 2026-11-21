@@ -1,0 +1,102 @@
+# ЛР-6, Часть 2. SparkApplication: ETL рекомендательной системы.
+# Установка оператора — kubernetes/spark-operator/spark-operator.yaml.
+#
+# Вариант 8 — cost optimization:
+#   * driver + JobManager   -> on-demand (падение драйвера дороже экономии);
+#   * executor              -> spot (stateless, при вытеснении stage пересчитывается
+#                              из checkpoint/shuffle-файлов);
+#   * dynamic allocation    -> платим только за реально нужные executor'ы.
+#
+# Валидация без кластера:  kubectl apply --dry-run=client -f kubernetes/manifests/spark-app.yaml
+apiVersion: sparkoperator.k8s.io/v1beta2
+kind: SparkApplication
+metadata:
+  name: spark-production
+  namespace: spark-operator
+spec:
+  type: Python
+  pythonVersion: "3"
+  mode: cluster
+  image: "lab6-spark:optimized"
+  imagePullPolicy: IfNotPresent
+  mainApplicationFile: "local:///opt/spark/work-dir/etl_job.py"
+  sparkVersion: "3.3.0"
+  restartPolicy:
+    type: OnFailure
+    onFailureRetries: 3
+    onFailureRetryInterval: 10
+    onSubmissionFailureRetries: 5
+    onSubmissionFailureRetryInterval: 20
+  sparkConf:
+    # --- cost optimization ---
+    "spark.dynamicAllocation.enabled": "true"
+    "spark.dynamicAllocation.minExecutors": "2"
+    "spark.dynamicAllocation.maxExecutors": "20"
+    "spark.dynamicAllocation.initialExecutors": "4"
+    "spark.dynamicAllocation.shuffleTracking.enabled": "true"
+    # --- память: не даём JVM выйти за лимит пода (OOMKilled) ---
+    "spark.memory.fraction": "0.6"
+    "spark.memory.storageFraction": "0.5"
+    "spark.executor.memoryOverhead": "1g"
+    "spark.driver.memoryOverhead": "1g"
+    "spark.sql.shuffle.partitions": "200"
+    "spark.sql.adaptive.enabled": "true"
+    "spark.sql.adaptive.coalescePartitions.enabled": "true"
+    # --- метрики для Prometheus (Часть 5) ---
+    "spark.ui.prometheus.enabled": "true"
+    "spark.metrics.conf.*.sink.prometheusServlet.class": "org.apache.spark.metrics.sink.PrometheusServlet"
+    "spark.metrics.conf.*.sink.prometheusServlet.path": "/metrics/prometheus"
+  driver:
+    cores: 2
+    coreLimit: "2"
+    memory: "4g"
+    serviceAccount: spark-operator
+    labels:
+      version: "3.3.0"
+      role: driver
+      node-pool: on-demand
+    # Драйвер — только на on-demand узлах.
+    nodeSelector:
+      node-pool: on-demand
+    tolerations:
+      - key: "on-demand"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
+    volumeMounts:
+      - name: work-dir
+        mountPath: /opt/spark/work-dir
+  executor:
+    cores: 4
+    coreLimit: "4"
+    instances: 4
+    memory: "8g"
+    labels:
+      version: "3.3.0"
+      role: executor
+      node-pool: spot
+    # Executor'ы — на spot: 75% executor-времени дешевле в 2.86 раза.
+    nodeSelector:
+      node-pool: spot
+    tolerations:
+      - key: "spot"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
+    # Anti-affinity: executor'ы разнесены по узлам, вытеснение одного узла
+    # не убивает весь stage целиком.
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: role
+                  operator: In
+                  values: ["executor"]
+            topologyKey: "kubernetes.io/hostname"
+    volumeMounts:
+      - name: work-dir
+        mountPath: /opt/spark/work-dir
+  volumes:
+    - name: work-dir
+      emptyDir: {}

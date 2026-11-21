@@ -1,0 +1,10 @@
+{
+  "cost_per_job": 4.0742,
+  "baseline_cost_per_job": 6.912,
+  "cost_savings_pct": 41.06,
+  "cost_optimization_factor": 1.697,
+  "availability": 0.99999,
+  "data_drift_psi": 0.0022,
+  "schema_compliance_ratio": 1.0,
+  "inference_p99_ms": 4.507
+}
