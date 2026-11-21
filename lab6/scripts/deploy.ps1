@@ -1,4 +1,4 @@
-# ЛР-6. Развёртывание в Kubernetes (kind) — скрипт для Windows-стенда.
+﻿# ЛР-6. Развёртывание в Kubernetes (kind) — скрипт для Windows-стенда.
 #
 # Что делает:
 #   1. проверяет docker/kubectl;
@@ -24,7 +24,13 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$LabRoot = Split-Path -Parent $PSScriptRoot
+# Каталог lab6: от расположения самого скрипта, с откатом на текущий каталог
+# (нужен, когда скрипт выполняется как scriptblock или через stdin).
+$LabRoot = $PSScriptRoot
+if (-not $LabRoot) {
+    if ($MyInvocation.MyCommand.Path) { $LabRoot = Split-Path -Parent $MyInvocation.MyCommand.Path }
+    else { $LabRoot = (Get-Location).Path }
+}
 $KindExe = Join-Path $env:USERPROFILE ".dsh\bin\kind.exe"
 
 function Require-Command($name) {
@@ -36,7 +42,12 @@ function Require-Command($name) {
 Write-Host "== ЛР-6: развёртывание в Kubernetes (kind) ==" -ForegroundColor Cyan
 $docker = Require-Command docker
 $kubectl = Require-Command kubectl
-if (-not (Test-Path $KindExe)) { $KindExe = (Get-Command kind -ErrorAction SilentlyContinue).Source }
+if (-not (Test-Path $KindExe)) {
+    # PowerShell 5.1 не поддерживает присваивание if-выражения, поэтому так.
+    $kindCmd = Get-Command kind -ErrorAction SilentlyContinue
+    $KindExe = ""
+    if ($kindCmd) { $KindExe = $kindCmd.Source }
+}
 if (-not $KindExe -or -not (Test-Path $KindExe)) {
     Write-Host "kind не найден. Установка: https://kind.sigs.k8s.io/docs/user/quick-start/#installation" -ForegroundColor Yellow
     Write-Host "Либо включите Kubernetes в Docker Desktop и примените манифесты напрямую:" -ForegroundColor Yellow
@@ -67,10 +78,10 @@ if ($DryRun) {
 }
 
 Write-Host "-- 1/6 создаю kind-кластер (два пула: on-demand и spot)"
-& $KindExe get clusters | Select-String -SimpleMatch $ClusterName | ForEach-Object {
+$existing = @(& $KindExe get clusters 2>$null | Where-Object { $_ -eq $ClusterName })
+if ($existing.Count -gt 0) {
     Write-Host "   кластер $ClusterName уже существует, пропускаю создание"
-}
-if (-not (& $KindExe get clusters | Select-String -SimpleMatch $ClusterName)) {
+} else {
     & $KindExe create cluster --config $configPath
 }
 
