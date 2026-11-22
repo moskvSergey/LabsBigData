@@ -1,0 +1,191 @@
+{
+  "uid": "lab5-streaming",
+  "title": "ЛР-5. Потоковая обработка: рекомендательная система",
+  "tags": ["lab5", "streaming", "flink"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "5s",
+  "time": { "from": "now-15m", "to": "now" },
+  "panels": [
+    {
+      "type": "row",
+      "title": "Панель 1. Состояние потока (задержка, пропускная способность)",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 }
+    },
+    {
+      "type": "stat",
+      "title": "p99 end-to-end, мс (требование < 45)",
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "gridPos": { "h": 5, "w": 6, "x": 0, "y": 1 },
+      "targets": [{ "expr": "lab5_latency_p99_ms", "refId": "A" }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ms",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "orange", "value": 30 },
+              { "color": "red", "value": 45 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": { "colorMode": "background", "graphMode": "area", "textMode": "auto" }
+    },
+    {
+      "type": "stat",
+      "title": "SLA (1 = p99 < 45 мс)",
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "gridPos": { "h": 5, "w": 4, "x": 6, "y": 1 },
+      "targets": [{ "expr": "lab5_sla_ok", "refId": "A" }],
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            { "type": "value", "options": { "0": { "text": "FAIL", "color": "red" } } },
+            { "type": "value", "options": { "1": { "text": "OK", "color": "green" } } }
+          ]
+        },
+        "overrides": []
+      },
+      "options": { "colorMode": "background", "graphMode": "none", "textMode": "auto" }
+    },
+    {
+      "type": "stat",
+      "title": "Пропускная способность, событий/с",
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "gridPos": { "h": 5, "w": 4, "x": 10, "y": 1 },
+      "targets": [{ "expr": "lab5_throughput_eps", "refId": "A" }],
+      "options": { "colorMode": "value", "graphMode": "area", "textMode": "auto" }
+    },
+    {
+      "type": "stat",
+      "title": "Всего предиктов",
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "gridPos": { "h": 5, "w": 4, "x": 14, "y": 1 },
+      "targets": [{ "expr": "lab5_predictions_total", "refId": "A" }],
+      "options": { "colorMode": "value", "graphMode": "area", "textMode": "auto" }
+    },
+    {
+      "type": "stat",
+      "title": "Дубликаты (идемпотентность)",
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "gridPos": { "h": 5, "w": 6, "x": 18, "y": 1 },
+      "targets": [{ "expr": "lab5_predictions_total - lab5_prediction_ids_total{kind=\"unique\"}", "refId": "A" }],
+      "options": { "colorMode": "background", "graphMode": "none", "textMode": "auto" }
+    },
+    {
+      "type": "timeseries",
+      "title": "Распределение задержки: p50 / p95 / p99",
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 6 },
+      "targets": [
+        { "expr": "lab5_latency_p50_ms", "legendFormat": "p50", "refId": "A" },
+        { "expr": "lab5_latency_p95_ms", "legendFormat": "p95", "refId": "B" },
+        { "expr": "lab5_latency_p99_ms", "legendFormat": "p99", "refId": "C" },
+        { "expr": "lab5_required_latency_ms", "legendFormat": "требование", "refId": "D" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "ms" }, "overrides": [] }
+    },
+    {
+      "type": "timeseries",
+      "title": "Гистограмма end-to-end задержки (heatmap-основа)",
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 6 },
+      "targets": [
+        { "expr": "rate(lab5_e2e_latency_ms_bucket[1m])", "legendFormat": "{{le}}", "refId": "A" }
+      ]
+    },
+    {
+      "type": "row",
+      "title": "Панель 2. Качество данных (дрейф, late-arriving, ошибки)",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 14 }
+    },
+    {
+      "type": "stat",
+      "title": "PSI дрейфа (порог 0.2)",
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 15 },
+      "targets": [{ "expr": "lab5_data_drift_psi", "refId": "A" }],
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 4,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "orange", "value": 0.1 },
+              { "color": "red", "value": 0.2 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": { "colorMode": "background", "graphMode": "area", "textMode": "auto" }
+    },
+    {
+      "type": "stat",
+      "title": "Late-arriving событий",
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "gridPos": { "h": 6, "w": 6, "x": 6, "y": 15 },
+      "targets": [{ "expr": "lab5_late_events_total", "refId": "A" }],
+      "options": { "colorMode": "value", "graphMode": "area", "textMode": "auto" }
+    },
+    {
+      "type": "stat",
+      "title": "Ошибок в DLQ",
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "gridPos": { "h": 6, "w": 6, "x": 12, "y": 15 },
+      "targets": [{ "expr": "lab5_errors_total", "refId": "A" }],
+      "options": { "colorMode": "background", "graphMode": "area", "textMode": "auto" }
+    },
+    {
+      "type": "timeseries",
+      "title": "Скорость ошибок и late-событий",
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "gridPos": { "h": 6, "w": 6, "x": 18, "y": 15 },
+      "targets": [
+        { "expr": "rate(lab5_errors_total[1m])", "legendFormat": "ошибки/с", "refId": "A" },
+        { "expr": "rate(lab5_late_events_total[1m])", "legendFormat": "late/с", "refId": "B" }
+      ]
+    },
+    {
+      "type": "row",
+      "title": "Панель 3. Состояние state и checkpoint",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 21 }
+    },
+    {
+      "type": "stat",
+      "title": "Длительность последнего checkpoint, с",
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "gridPos": { "h": 6, "w": 8, "x": 0, "y": 22 },
+      "targets": [{ "expr": "lab5_checkpoint_duration_sec", "refId": "A" }],
+      "fieldConfig": { "defaults": { "unit": "s", "decimals": 3 }, "overrides": [] },
+      "options": { "colorMode": "value", "graphMode": "area", "textMode": "auto" }
+    },
+    {
+      "type": "timeseries",
+      "title": "Размер state и число checkpoint'ов (Flink)",
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "gridPos": { "h": 6, "w": 8, "x": 8, "y": 22 },
+      "targets": [
+        { "expr": "flink_jobmanager_job_lastCheckpointSize", "legendFormat": "размер, байт", "refId": "A" },
+        { "expr": "flink_jobmanager_job_numberOfCompletedCheckpoints", "legendFormat": "успешных", "refId": "B" },
+        { "expr": "flink_jobmanager_job_numberOfFailedCheckpoints", "legendFormat": "провальных", "refId": "C" }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Задержка инференса (p50 / p99)",
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "gridPos": { "h": 6, "w": 8, "x": 16, "y": 22 },
+      "targets": [
+        { "expr": "lab5_inference_p99_ms", "legendFormat": "инференс p99", "refId": "A" },
+        { "expr": "rate(model_server_inference_seconds_sum[1m]) / rate(model_server_inference_seconds_count[1m]) * 1000", "legendFormat": "model server, средн. мс", "refId": "B" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "ms" }, "overrides": [] }
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "model_version": "recommender.onnx:v1",
+  "model_name": "LogisticRegression",
+  "auc": 0.659066,
+  "f1": 0.487024,
+  "decision_threshold": 0.372844,
+  "mlflow_run_id": "f91389dfa49e4c1792bd3c736ab5e38b",
+  "feature_names": [
+    "user_avg_rating",
+    "user_rating_count",
+    "user_std_rating",
+    "movie_avg_rating",
+    "movie_rating_count",
+    "movie_year",
+    "hour",
+    "day_of_week"
+  ],
+  "like_threshold": 4.0,
+  "onnx_latency_p50_ms": 0.0313,
+  "onnx_latency_p99_ms": 0.211,
+  "trained_at": "2026-11-21T07:52:36.397933+00:00"
+}

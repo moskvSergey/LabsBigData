@@ -1,0 +1,70 @@
+groups:
+  - name: lab5-streaming
+    rules:
+      # --- 1. Уникальное требование варианта 8: p99 end-to-end < 45 мс ---
+      - alert: HighStreamingLatencyP99
+        expr: lab5_latency_p99_ms > 45
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "p99 потоковой задержки выше требования варианта 8"
+          description: "p99 = {{ $value }} мс > 45 мс (уникальное требование, цифра 8)"
+
+      - alert: HighStreamingLatencyP95
+        expr: lab5_latency_p95_ms > 30
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "p95 потоковой задержки растёт"
+          description: "p95 = {{ $value }} мс"
+
+      # --- 2. Lag в Kafka (классический алерт из задания) ---
+      - alert: HighKafkaLag
+        expr: kafka_consumergroup_lag > 1000
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Высокий lag в Kafka"
+          description: "Lag для {{ $labels.consumergroup }} превысил 1000 сообщений"
+
+      # --- 3. Ошибки обработки (DLQ) ---
+      - alert: HighErrorRate
+        expr: rate(lab5_errors_total[1m]) > 5
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Рост ошибок обработки"
+          description: "Более 5 ошибок/с уходит в dlq_errors"
+
+      # --- 4. Дрейф данных ---
+      - alert: DataDriftDetected
+        expr: lab5_data_drift_psi > 0.2
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Обнаружен дрейф данных (PSI > 0.2)"
+          description: "PSI по user_avg_rating = {{ $value }}"
+
+      # --- 5. Сбои checkpoint (exactly-once под угрозой) ---
+      - alert: CheckpointFailing
+        expr: increase(flink_jobmanager_job_numberOfFailedCheckpoints[5m]) > 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Падают checkpoint'ы Flink"
+          description: "Гарантия exactly-once под угрозой"
+
+      - alert: CheckpointTooSlow
+        expr: lab5_checkpoint_duration_sec > 2
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Checkpoint длится дольше 2 секунд"
+          description: "Длительность checkpoint = {{ $value }} с"
